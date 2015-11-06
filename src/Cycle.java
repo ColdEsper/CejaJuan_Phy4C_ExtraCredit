@@ -122,4 +122,20 @@ public class Cycle {
 		}
 		//TODO calculations to find as much data as possible about the other points
 	}
+	public static double energy (double deltaWork,double deltaHeat) {
+		return (deltaHeat-deltaWork);
+	}
+	public static double energy (double moles, double voulmeMolarCapacity, double deltaTemperature) {
+		return (moles*voulmeMolarCapacity*deltaTemperature);
+	}
+	public static double work (double deltaEnergy,double deltaHeat) {
+		return (deltaHeat-deltaEnergy);
+	}
+	public static double heat (double deltaEnergy,double deltaWork) {
+		return (deltaEnergy+deltaWork);
+	}
+	public static double isobaricWork (double pressure,double startVolume, double endVolume) {
+		return (pressure*(endVolume-startVolume));
+	}
+	public static final double ISOCHORIC_WORK = 0.0;
 }
