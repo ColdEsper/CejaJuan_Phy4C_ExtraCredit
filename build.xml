@@ -1,0 +1,15 @@
+<project name="Cycle" default="compile" basedir=".">
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<target name="compile" description="compile the source">
+		<javac includeantruntime="false" srcdir="${src}" destdir="${build}" />
+	</target>
+	<target name="run" description="runs Main.class">
+		<java dir="${build}" classname="Main" fork="true" failonerror="true">
+			<classpath>
+				<pathelement location="${build}" />
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</java>
+	</target>
+</project>
