@@ -28,39 +28,36 @@ public class IsoThermal
 	
 	//create a method that calculates work,U,Q,and S 
 	//it must accept moles, temp, volume1, volume 2
-	public static float isothermCalculationsWork(float moles,float volume1, float volume2,float tempInKelvin)
+	public static double isothermCalculationsWork(double moles,double volume1, double volume2,double tempInKelvin)
 	{
-		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
-		float work;
+		double work;
 	   //calculate the work which is nRT=ln(V2/V1)
-	    work =  (float) (R*moles*tempInKelvin*Math.log(volume2/volume1));
+	    work =  (double) (Cycle.R*moles*tempInKelvin*Math.log(volume2/volume1));
 	    
 	   return work;
 	}
 	
-	public static float isothermalCalculationsQ(float moles,float volume1, float volume2,float tempInKelvin)
+	public static double isothermalCalculationsQ(double moles,double volume1, double volume2,double tempInKelvin)
 	{
-		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
-		float Q;
-		 Q =  (float) (R*moles*tempInKelvin*Math.log(volume2/volume1));
+		double Q;
+		 Q =  (double) (Cycle.R*moles*tempInKelvin*Math.log(volume2/volume1));
 		 
 		 return Q;
 	}
 	
-	public static float isothermalCalculationsS(float moles,float volume1, float volume2,float tempInKelvin)
+	public static double isothermalCalculationsS(double moles,double volume1, double volume2,double tempInKelvin)
 	{
-		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
-		float S;
+		double S;
 		
 		//calculate the entropy for Free expansion
-		S= (moles*R*tempInKelvin*(float)Math.log(volume2/volume1));
+		S= (moles*Cycle.R*tempInKelvin*(double)Math.log(volume2/volume1));
 		 
 		 return S;
 	}
 	
-	public static float isothermalCalculationsU()
+	public static double isothermalCalculationsU()
 	{
-		float U;
+		double U;
 		
 		//calculate the entropy for Free expansion
 		U= 0;

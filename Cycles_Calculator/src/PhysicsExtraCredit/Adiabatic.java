@@ -2,67 +2,65 @@ package PhysicsExtraCredit;
 
 public class Adiabatic 
 {
-	public static float adiabaticculationsWork(float volume2,float volume1)
+	public static double adiabaticculationsWork(double volume2,double volume1)
 	{
-		final float gamma = (float)1.6651;//ratio of Cp/Cv different
-	    final float K = (float)1.6651608;//adiabatic condition K=PV^gamma ; gamma = Cp/Cv
-		float work;
+		final double gamma = (double)1.6651;//ratio of Cp/Cv different
+	    final double K = (double)1.6651608;//adiabatic condition K=PV^gamma ; gamma = Cp/Cv
+		double work;
 		//calculate work which is w = K(Vf^(1-gamma)-Vi^(1-gamma))/(1-gamma)
-	   	work = (float)(K*(Math.pow(volume2, (1-gamma))-Math.pow(volume1, (1-gamma))))/(1-gamma);
+	   	work = (double)(K*(Math.pow(volume2, (1-gamma))-Math.pow(volume1, (1-gamma))))/(1-gamma);
 	   
 	   return work;
 	}
 	
-	public static float adiabaticCalculationsQ()
+	public static double adiabaticCalculationsQ()
 	{
-		float Q;
+		double Q;
 		 Q= 0;
 		 
 		 return Q;
 	}
 	
-	public static float adiabaticCalculationsS(float moles,float Cv, float tempFinal,float tempInitial)
+	public static double adiabaticCalculationsS(double moles,double Cv, double tempFinal,double tempInitial)
 	{
-		float S;
+		double S;
 		
 		//calculate the entropy for Free expansion
-		 S= (moles*Cv*(float)Math.log((tempFinal-tempInitial)));
+		 S= (moles*Cv*(double)Math.log((tempFinal-tempInitial)));
 		 
 		 return S;
 	}
 	
-	public static float adiabaticCalculationsU(float volume2,float volume1)
+	public static double adiabaticCalculationsU(double volume2,double volume1)
 	{
 
-		final float gamma = (float)1.6651;//ratio of Cp/Cv different
-	    final float K = (float)1.6651608;//adiabatic condition K=PV^gamma ; gamma = Cp/Cv
-		float U;
+		final double gamma = (double)1.6651;//ratio of Cp/Cv different
+	    final double K = (double)1.6651608;//adiabatic condition K=PV^gamma ; gamma = Cp/Cv
+		double U;
 	
 		//calculate U = -work 
-	    U= -1*(float)(K*(Math.pow(volume2, (1-gamma))-Math.pow(volume1, (1-gamma))))/(1-gamma);
+	    U= -1*(double)(K*(Math.pow(volume2, (1-gamma))-Math.pow(volume1, (1-gamma))))/(1-gamma);
 		 
 		 return U;
 	}
 	
 
-	public static float adiabaticCalculationsPressure1(float moles,float tempInKelvin,float volume1)
+	public static double adiabaticCalculationsPressure1(double moles,double tempInKelvin,double volume1)
 	{
-		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
-		float Pinitial;
+		double Pinitial;
 		
 		  //calculate the initial pressure using P = nRT/V
-		 Pinitial = (moles*R*tempInKelvin)/volume1;
+		 Pinitial = (moles*Cycle.R*tempInKelvin)/volume1;
 		 
 		 return Pinitial;
 	}
 	
-	public static float adiabaticCalculationsPressure2(float moles,float tempInKelvin,float volume2)
+	public static double adiabaticCalculationsPressure2(double moles,double tempInKelvin,double volume2)
 	{
-		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
-		float Pfinal ;
+		double Pfinal ;
 		
 		//calculate the entropy for Free expansion
-		Pfinal = (moles*R*tempInKelvin)/volume2;
+		Pfinal = (moles*Cycle.R*tempInKelvin)/volume2;
 		 
 		 return Pfinal;
 	}

@@ -11,7 +11,7 @@ public class Cycle {
 	//nodes that have initial values, which will be used for starting 
 	//points of calculating the other values
 	public double moles;
-	public static double GAS_CONSTANT = 8.31;
+	public final static double R =  8.314; //this is the ideal gas law units J/(mol*k)
 	public static CycleData loadFile (String fileName) throws IOException {
 		CycleData cycData = new CycleData ();
 		Scanner readFile = new Scanner(fileName);
