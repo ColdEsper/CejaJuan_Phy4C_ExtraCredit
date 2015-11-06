@@ -1,0 +1,155 @@
+package PhysicsExtraCredit;
+
+import java.util.*;
+
+import javax.swing.JOptionPane;
+
+
+public class Cycles_2nd_Law
+{
+		
+	// sample client program
+	public static void main(String[] args) 
+	{ 
+	  int userPick;
+	  final int isoChor = 1;
+	  final int isoBar = 2;
+	  final int adiabatic = 3;
+	  final int isoTherm = 4;
+		     
+	//instantiate a scanner object
+		Scanner keyBoard = new Scanner(System.in);
+				
+		      
+	//ask the user to input the cycle he/she wants to focus on
+		System.out.print("1. isochor\n"
+				 +"2. isobar\n"
+				 +"3. adiabatic\n"
+				 +"4. isothermal\n");
+			
+		userPick =  keyBoard.nextInt();	   
+				//use a switch statement that allows the user to choice 
+				//which cycle he wants to work with
+				
+				switch(userPick)
+				{
+					case isoChor:
+						isoChor();
+						break;
+					case isoBar:
+						isoBar();
+						break;
+					case adiabatic:
+						adiabatic();
+						break;
+					case isoTherm:
+						isoTherm();
+						break;
+				
+				
+				}
+		    
+		  	  //System.out.format(" %-10.4f%n",8.314*1*300*SimpsonsRule.integrate(a, b));
+		   }
+		   
+		   public static void isoChor()
+		   {
+			   
+		   }
+		   
+		   public static void isoBar()
+		   {
+			   
+		   }
+		   public static void adiabatic()
+		   {
+			   
+		   }
+		   
+		 //this function calculates the work and Q of an isothermal process for a cycle
+		   @SuppressWarnings("resource")
+		public static void isoTherm()
+		   {
+			   final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k) 
+			   float moles;//this is the number of moles
+			   float tempInKelvin;//temperature in kelvin
+			   float volume1;
+			   float volume2;
+			   
+		//instantiate a scanner object
+			   Scanner keyBoard = new Scanner(System.in);
+			   
+			  
+			   
+			   
+			   //prompt the user to enter the temperature in kelvin
+			   System.out.println("Enter The temperature of the \n"
+					   +"isoterm in kelvin");
+			   tempInKelvin = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(tempInKelvin<=0)
+			   {
+				   //prompt the user to enter the temperature in kelvin
+				   System.out.println("Enter The temperature of the \n"
+						   +"isoterm in kelvin remember you cannot have negative values in the \n"
+						   +"Kelvin scale or a value of zero");
+				   tempInKelvin = keyBoard.nextFloat();
+			   }
+			   
+			 //prompt the user to enter the temperature in kelvin
+			   System.out.println("Enter the number of moles(n) the \n"
+					   +"it must be greater than zero");
+			   moles = keyBoard.nextFloat();
+			   
+			   
+			   //validate the input to make sure its greater then zero
+			   while(moles<=0)
+			   {
+				 //prompt the user to enter the temperature in kelvin
+				   System.out.println("Enter the number of moles(n) the \n"
+						   +"it must be greater than zero");
+				   moles = keyBoard.nextFloat();
+				   
+			   }
+			   
+			 //prompt the user to enter the inital volume V1
+			   System.out.println("Enter the inital volume(V1) of the \n"
+					   +"isoterm");
+			   volume1 = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(tempInKelvin<=0)
+			   {
+				   //prompt the user to enter the temperature in kelvin
+				   System.out.println("Enter the inital volume(V1) of the \n"
+						   +"isoterm remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume1 = keyBoard.nextFloat();
+			   }
+			   
+			   
+			 //prompt the user to enter the final volume V2
+			   System.out.println("Enter the final volume(V2) of the \n"
+					   +"isoterm");
+			   volume2 = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(tempInKelvin<=0)
+			   {
+				   //prompt the user to enter the temperature in kelvin
+				   System.out.println("Enter the final volume(V2) of the \n"
+						   +"isoterm remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume2 = keyBoard.nextFloat();
+			   }
+			   
+			   
+			   //display the total work which is nRT=ln(V2/V1)   
+			   System.out.format(" %-10.4f%n","Total work:",+
+					   R*moles*tempInKelvin*Math.log1p(volume2/volume1));
+			  
+		   }
+
+
+}
