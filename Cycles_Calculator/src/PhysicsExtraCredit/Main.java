@@ -21,8 +21,8 @@ class Graph extends JPanel {
 		g.drawString(XAxis,width/2,height);
 		g.drawString(YAxis,0,height/2);
 		//draw grid of graph
-		for (int x=metrics.stringWidth(YAxis)+3;x<width-gridSpace;x+=gridSpace) {
-			for (int y=metrics.getHeight();y<height-metrics.getHeight()-gridSpace;y+=gridSpace) {
+		for (int x=metrics.stringWidth(YAxis)+metrics.stringWidth("1000");x<width-gridSpace;x+=gridSpace) {
+			for (int y=metrics.getHeight()*2;y<height-metrics.getHeight()*2-gridSpace;y+=gridSpace) {
 				g.drawLine(x,y,x+gridSpace,y);
 				g.drawLine(x+gridSpace,y,x+gridSpace,y+gridSpace);
 				g.drawLine(x,y,x,y+gridSpace);
@@ -38,7 +38,7 @@ public class Main {
 		if (args.length > 0 && args[0].toLowerCase().equals("gui")) {
 			JFrame frame = new JFrame("Cycle Calculation");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			Graph graph = new Graph("X-Axis","Y-Axis",20);
+			Graph graph = new Graph("X-Axis","Y-Axis",10);
 			frame.add(graph);
 			frame.setSize(640,640);
 			frame.setVisible(true);
