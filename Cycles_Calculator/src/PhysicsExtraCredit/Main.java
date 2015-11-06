@@ -27,14 +27,15 @@ class Graph extends JPanel {
 		int endX;
 		int endY;
 	}
-	public Graph (String XAxisName, String YAxisName, int newUnitXValue, int newUnitYValue, int gridSpacing) {
+	public Graph (String XAxisName, String YAxisName, int newUnitXValue, int newUnitYValue, 
+			int newUnitXStart, int newUnitYStart, int gridSpacing) {
 		XAxis = XAxisName;
 		YAxis = YAxisName;
 		gridSpace = gridSpacing;
 		unitXValue = newUnitXValue;
 		unitYValue = newUnitYValue;
-		unitXStart = 0;
-		unitYStart = 0;
+		unitXStart = newUnitXStart;
+		unitYStart = newUnitYStart;
 		lines = new ArrayList<Line>();
 	}
 	public void paintComponent (Graphics g) {
@@ -43,7 +44,7 @@ class Graph extends JPanel {
 		int width = getWidth();
 		int height = getHeight();
 		int gridXStart = metrics.stringWidth(YAxis)+metrics.stringWidth("1000");
-		int gridYStart = height-metrics.getHeight();
+		int gridYStart = height-metrics.getHeight()*2;
 		g.drawString(XAxis,width/2,height);
 		g.drawString(YAxis,0,height/2);
 		//draw grid of graph
@@ -58,19 +59,19 @@ class Graph extends JPanel {
 		//draw lines on grid
 		g.setColor(Color.RED);
 		for (Line line : lines) {
-			//y must be inverted since coordinate system of window has 
+			//y must be turned negative since coordinate system of window has 
 			//y start at top left and increase downward
-			g.drawLine(line.startX+gridXStart-unitXStart,
-					-line.startY+gridYStart+unitYStart,
-					line.endX+gridXStart-unitXStart,
-					-line.endY+gridYStart+unitYStart);
+			g.drawLine(line.startX+gridXStart,
+					-line.startY+gridYStart,
+					line.endX+gridXStart,
+					-line.endY+gridYStart);
 		}
 	}
-	public boolean addLine (int unitStartX, int unitStartY,int unitEndX, int unitEndY) {
-		lines.add(new Line((int)((float)unitStartX/(float)unitXValue)*gridSpace,
-					(int)((float)unitStartY/(float)unitYValue)*gridSpace,
-					(int)((float)unitEndX/(float)unitXValue)*gridSpace,
-					(int)((float)unitEndY/(float)unitYValue)*gridSpace));
+	public boolean addLine (int xUnitsOne, int yUnitsOne,int xUnitsTwo, int yUnitsTwo) {
+		lines.add(new Line((int)((float)(xUnitsOne-unitXStart)/(float)unitXValue)*gridSpace,
+					(int)((float)(yUnitsOne-unitYStart)/(float)unitYValue)*gridSpace,
+					(int)((float)(xUnitsTwo-unitXStart)/(float)unitXValue)*gridSpace,
+					(int)((float)(yUnitsTwo-unitYStart)/(float)unitYValue)*gridSpace));
 		return true;
 	}
 }
@@ -81,8 +82,8 @@ public class Main {
 		if (args.length > 0 && args[0].toLowerCase().equals("gui")) {
 			JFrame frame = new JFrame("Cycle Calculation");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			Graph graph = new Graph("X-Axis","Y-Axis",5,5,10);
-			graph.addLine(10,10,20,20);
+			Graph graph = new Graph("Volume","Pressure",5,5,10,10,10);
+			graph.addLine(15,15,25,25);
 			frame.add(graph);
 			frame.setSize(640,640);
 			frame.setVisible(true);
