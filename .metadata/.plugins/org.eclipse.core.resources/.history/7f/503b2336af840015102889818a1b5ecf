@@ -252,26 +252,32 @@ public class Cycles_2nd_Law
 				}while(volume2<=0);
 			   	
 			   //prompt the user to enter the initial temperature
-				do
-				{
+			   System.out.println("Enter the initial temperature of the \n"
+			   				+"isobaric process in kelvin");
+			   tempInitial = keyBoard.nextFloat();
+			   
+			   //validate the input
+			   while(tempInitial<0)
+			   {
 				   //prompt the user to enter the initial temperature
 				   System.out.println("Enter the initial temperature of the \n"
-				   				+"isobaric process in kelvin imput must\n"
-				   				+"be values > 0");
+				   				+"isobaric process in kelvin");
 				   tempInitial = keyBoard.nextFloat();
+			   }
 			   
-				}while(tempInitial<0);
-				
 			   //prompt the user to enter the final temperature
-				do
-				{
+			   System.out.println("Enter the initial temperature of the \n"
+			   				+"isobaric process in kelvin");
+			   tempFinal = keyBoard.nextFloat();
+			   
+			   //validate the input
+			   while(tempFinal<0)
+			   {
 				   //prompt the user to enter the initial temperature
 				   System.out.println("Enter the Final temperature of the \n"
-				   				+"isobaric process in kelvin input must\n"
-				   				+"be values > 0");
+				   				+"isobaric process in kelvin");
 				   tempFinal = keyBoard.nextFloat();
-			   
-				} while(tempFinal<0);
+			   }
 			   
 			   //note work = P(Vf-Vi) for isobaric process
 			   	work = Pinitial*(volume2-volume1);
@@ -332,34 +338,50 @@ public class Cycles_2nd_Law
 			Scanner keyBoard = new Scanner(System.in);
 			   
 			   //prompt the user to enter the temperature in kelvin
-			   do
+			   System.out.println("Enter The temperature of the \n"
+					   +"isoterm in kelvin");
+			   tempInKelvin = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(tempInKelvin<=0)
 			   {
 				   //prompt the user to enter the temperature in kelvin
 				   System.out.println("Enter The temperature of the \n"
-						   +"adiabat in kelvin remember you cannot have negative values in the \n"
+						   +"isoterm in kelvin remember you cannot have negative values in the \n"
 						   +"Kelvin scale or a value of zero");
 				   tempInKelvin = keyBoard.nextFloat();
-			   
-			   }while(tempInKelvin<=0);
+			   }
 			   
 			 //prompt the user to enter the moles
-				  do
-				  { 
-					  System.out.println("Enter the number of moles(n) the \n"
-						   +"it must be greater than zero");
-					  moles = keyBoard.nextFloat();
-					   
-				  }while(moles<=0);
+			   System.out.println("Enter the number of moles(n) the \n"
+					   +"it must be greater than zero");
+			   moles = keyBoard.nextFloat();
 			   
-				//prompt the user to enter the initial volume
-					 do
-					 {
-						  //validate the input to make sure its greater then zero
-						  System.out.println("Enter the volume(meters^3) of the \n"
-							   +"adiabat remember you cannot have negative values \n"
-							   +"or a value of zero");
-					   volume1 = keyBoard.nextFloat();
-					 } while(volume1<=0);
+			   
+			   //validate the input to make sure its greater then zero
+			   while(moles<=0)
+			   {
+				 //prompt the user to enter the moles
+				   System.out.println("Enter the number of moles(n) the \n"
+						   +"it must be greater than zero");
+				   moles = keyBoard.nextFloat();
+				   
+			   }
+			   
+			 //prompt the user to enter the initial volume V1
+			   System.out.println("Enter the inital volume(V1) of the \n"
+					   +"isoterm in meter^3");
+			   volume1 = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(volume1<=0)
+			   {
+				   //prompt the user to enter the initial volume
+				   System.out.println("Enter the inital volume(V1) of the \n"
+						   +"isoterm remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume1 = keyBoard.nextFloat();
+			   }
 			   
 			   //calculate the initial pressure using P = nRT/V
 			   	Pinitial = (moles*R*tempInKelvin)/volume1;
@@ -368,17 +390,21 @@ public class Cycles_2nd_Law
 			   	//calculate the adiabatic condition K = PV^gamma
 			   	 K = (float) (Pinitial * Math.pow(volume1, gamma));
 			   
-			   //prompt the user to enter the final volume V2
-					do
-					{
-						//prompt the user to enter the final volume
-					   System.out.println("Enter the final volume(m^3) of the \n"
-							   +"adiabat remember you cannot have negative values \n"
-							   +"or a value of zero");
-					   volume2 = keyBoard.nextFloat();
-				   
-					}while(volume2<=0);
-					
+			 //prompt the user to enter the final volume V2
+			   System.out.println("Enter the final volume(V2) of the \n"
+					   +"isoterm in meter^3");
+			   volume2 = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(volume2<=0)
+			   {
+				   //prompt the user to enter the final volume
+				   System.out.println("Enter the final volume(V2) of the \n"
+						   +"isoterm remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume2 = keyBoard.nextFloat();
+			   }
+			   
 			   //calculate work which is w = K(Vf^(1-gamma)-Vi^(1-gamma))/(1-gamma)
 			   	work = (float)(K*(Math.pow(volume2, (1-gamma))-Math.pow(volume1, (1-gamma))))/(1-gamma);
 			   
@@ -428,47 +454,71 @@ public class Cycles_2nd_Law
 		//instantiate a scanner object
 			   @SuppressWarnings("resource")
 			Scanner keyBoard = new Scanner(System.in);
-			     
-			 //prompt the user to enter the temperature in kelvin
-			   do
+			   
+			  
+			   
+			   
+			   //prompt the user to enter the temperature in kelvin
+			   System.out.println("Enter The temperature of the \n"
+					   +"isoterm in kelvin");
+			   tempInKelvin = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(tempInKelvin<=0)
 			   {
 				   //prompt the user to enter the temperature in kelvin
 				   System.out.println("Enter The temperature of the \n"
-						   +"adiabat in kelvin remember you cannot have negative values in the \n"
+						   +"isoterm in kelvin remember you cannot have negative values in the \n"
 						   +"Kelvin scale or a value of zero");
 				   tempInKelvin = keyBoard.nextFloat();
-			   
-			   }while(tempInKelvin<=0);
+			   }
 			   
 			 //prompt the user to enter the moles
-				  do
-				  { 
-					  System.out.println("Enter the number of moles(n) the \n"
+			   System.out.println("Enter the number of moles(n) the \n"
+					   +"it must be greater than zero");
+			   moles = keyBoard.nextFloat();
+			   
+			   
+			   //validate the input to make sure its greater then zero
+			   while(moles<=0)
+			   {
+				 //prompt the user to enter the moles
+				   System.out.println("Enter the number of moles(n) the \n"
 						   +"it must be greater than zero");
-					  moles = keyBoard.nextFloat();
-					   
-				  }while(moles<=0);
-			   
-				//prompt the user to enter the initial volume
-					 do
-					 {
-						  //validate the input to make sure its greater then zero
-						  System.out.println("Enter the volume(meters^3) of the \n"
-							   +"adiabat remember you cannot have negative values \n"
-							   +"or a value of zero");
-					   volume1 = keyBoard.nextFloat();
-					 } while(volume1<=0);
-			   
-			   //prompt the user to enter the final volume V2
-					do
-					{
-						//prompt the user to enter the final volume
-					   System.out.println("Enter the final volume(m^3) of the \n"
-							   +"adiabat remember you cannot have negative values \n"
-							   +"or a value of zero");
-					   volume2 = keyBoard.nextFloat();
+				   moles = keyBoard.nextFloat();
 				   
-					}while(volume2<=0);
+			   }
+			   
+			 //prompt the user to enter the inital volume V1
+			   System.out.println("Enter the inital volume(V1) of the \n"
+					   +"isoterm in meter^3");
+			   volume1 = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(tempInKelvin<=0)
+			   {
+				   //prompt the user to enter the temperature in kelvin
+				   System.out.println("Enter the inital volume(V1) of the \n"
+						   +"isoterm remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume1 = keyBoard.nextFloat();
+			   }
+			   
+			   
+			 //prompt the user to enter the final volume V2
+			   System.out.println("Enter the final volume(V2) of the \n"
+					   +"isoterm in meter^3");
+			   volume2 = keyBoard.nextFloat();
+			   
+			   //validate the input to make sure its greater then zero
+			   while(volume2<=0)
+			   {
+				   //prompt the user to enter the final volume
+				   System.out.println("Enter the final volume(V2) of the \n"
+						   +"isoterm remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume2 = keyBoard.nextFloat();
+			   }
 			   
 			   //calculate the work which is nRT=ln(V2/V1)
 			    work =  (float) (R*moles*tempInKelvin*Math.log(volume2/volume1));
@@ -518,15 +568,21 @@ public class Cycles_2nd_Law
 			   
 			//ask the user if he/she wants the entropy for Free Expansion or 
 			//for the reversible isothermal process
-			   do
+			   System.out.println("\nWhich entropy calculation would you like to run\n"
+					   +"1.Free Expansion\n"
+					   +"2.Reversible isothermal process\n"
+					   +"Press the number that goes with your choice\n");
+			   userChoice = keyBoard.nextFloat();
+			   
+			   //validate the input
+			   while(userChoice<1||userChoice>2)
 			   {
 				   System.out.println("\nWhich entropy calculation would you like to run\n"
 						   +"1.Free Expansion\n"
 						   +"2.Reversible isothermal process\n"
 						   +"Press the number that goes with your choice\n");
 				   userChoice = keyBoard.nextFloat();   
-			   
-			   } while(userChoice<1||userChoice>2);
+			   }
 			   //free expansion calculation
 			   if(userChoice== 1)
 			   {

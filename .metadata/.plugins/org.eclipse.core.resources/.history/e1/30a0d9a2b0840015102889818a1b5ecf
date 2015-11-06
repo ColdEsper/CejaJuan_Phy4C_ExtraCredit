@@ -459,6 +459,13 @@ public class Cycles_2nd_Law
 					   volume1 = keyBoard.nextFloat();
 					 } while(volume1<=0);
 			   
+			   //calculate the initial pressure using P = nRT/V
+			   	Pinitial = (moles*R*tempInKelvin)/volume1;
+			   	
+			   	
+			   	//calculate the adiabatic condition K = PV^gamma
+			   	 K = (float) (Pinitial * Math.pow(volume1, gamma));
+			   
 			   //prompt the user to enter the final volume V2
 					do
 					{
