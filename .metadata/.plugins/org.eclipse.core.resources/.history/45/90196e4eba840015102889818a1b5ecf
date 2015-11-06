@@ -1,0 +1,49 @@
+package PhysicsExtraCredit;
+
+public class IsoChor 
+{
+	//create a method that calculates work,U,Q,and S 
+	//it must accept moles, temp, volume1, volume 2 as arguments
+	public static float isochorculationsWork(float moles,float volume1, float volume2,float tempInKelvin)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float work;
+	   //calculate the work which is nRT=ln(V2/V1)
+	    work =  (float) (R*moles*tempInKelvin*Math.log(volume2/volume1));
+	    
+	   return work;
+	}
+	
+	public static float isochorCalculationsQ(float Cv,float moles,float volume1, 
+											float volume2,float tempInKelvin,float Pfinal,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float Q;
+		 Q= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+		 
+		 return Q;
+	}
+	
+	public static float isochorCalculationsS(float moles,float Cv, float tempFinal,float tempInitial)
+	{
+		float S;
+		
+		//calculate the entropy for Free expansion
+		 S= (moles*Cv*(float)Math.log((tempFinal-tempInitial)));
+		 
+		 return S;
+	}
+	
+	public static float isochorCalculationsU(float Cv,float moles,float volume1, 
+											float volume2,float tempInKelvin,float Pfinal,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float U;
+		
+		//calculate the entropy for Free expansion
+		U= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+		 
+		 return U;
+	}
+
+}

@@ -71,7 +71,6 @@ public class Cycles_2nd_Law
 			 *******************************/
 		  public static void isoChor()
 		   {
-			   final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
 			   float Cv;//Specific molar heat capacity at constant volume Cv= Cp-R
 			   float moles;//this is the number of moles
 			   float volume1;
@@ -140,16 +139,16 @@ public class Cycles_2nd_Law
 			   	
 			   
 			   //note work = 0 for isochoric process
-			   	work = 0;
+			   	work = IsoChor.isochorculationsWork();
 			   
 			    
 			   //calculate Q = (Cv/R)*V(Pf-Pi)
-			    Q= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+			    Q= IsoChor.isochorCalculationsQ(Cv, volume1, Pfinal, Pinitial);
 			    
 			    //calculate U = Q for an isochoric process
-			    U= Q;
+			    U=IsoChor.isochorCalculationsU(Cv, volume1, Pfinal, Pinitial);
 			    
-			   //display the total work which is w = K(Vf^(1-gamma)-Vi^(1-gamma))/(1-gamma) 
+			   //display the total work 
 			   System.out.print("Total work(joules)= ");
 			   System.out.format(" %-10.2f%n",work);
 			   
@@ -164,14 +163,14 @@ public class Cycles_2nd_Law
 			   System.out.format(" %-10.4f%n",U);
 			   
 			  //calculate T1 with T1=(P1V1/nR)
-			   tempInitial = ((Pinitial* volume1)/(moles*R));
+			   tempInitial = IsoChor.isochorCalculationsTemp1(moles, volume1, Pinitial);
 			   
 			 //calculate T2 with T2=(P2V1/nR)
-			   tempFinal = ((Pfinal*volume1)/(moles*R));
+			   tempFinal = IsoChor.isochorCalculationsTemp2(moles, volume1, Pfinal);
 			   
 			   
 			 //calculate the entropy S = nCvln(T2-T1)
-			   S= (moles*Cv*(float)Math.log((tempFinal-tempInitial)));
+			   S= IsoChor.isochorCalculationsS(moles, Cv, tempFinal, tempInitial);
 			   System.out.print("\nEntropy(S) = ");
 			   System.out.format("%-10.4f%n",S);  
 			    
@@ -186,7 +185,6 @@ public class Cycles_2nd_Law
 		   
 		   public static void isoBar()
 		   {
-			   final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
 			   float Cp;//Specific molar heat capacity at constant pressure Cp= Cv+R
 			   float moles;//this is the number of moles
 			   float volume1;
@@ -274,14 +272,14 @@ public class Cycles_2nd_Law
 				} while(tempFinal<0);
 			   
 			   //note work = P(Vf-Vi) for isobaric process
-			   	work = Pinitial*(volume2-volume1);
+			   	work = IsoBar.isobarCalculationsTempWork(volume2, volume1, Pinitial);
 			   
 			    
 			   //calculate Q= nCp(Tf-Ti)
-			    Q= (moles*Cp*(tempFinal-tempInitial));
+			    Q= IsoBar.isobarCalculationsQ(moles, Cp, tempFinal, tempInitial);
 			    
 			    //calculate U = Q for an isobaric process
-			    U= Q;
+			    U= IsoBar.isobarCalculationsU(moles, Cp, tempFinal, tempInitial);
 			    
 			   //display the total work 
 			   System.out.print("Total work(joules)= ");
@@ -310,10 +308,9 @@ public class Cycles_2nd_Law
 		   public static void adiabatic()
 		   {
 			   
-			   final float Cp = (float) 20.81451;//specfic molar heat capacity at constant pressure Cp=Cv+R
-			   final float Cv = (float) 12.5;//Specific molar heat capacity at constant volume Cv= Cp-R
-			   final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
-			   final float gamma = (float)1.6651;//ratio of Cp/Cv different
+			   //final float Cp = (float) 20.81451;//specfic molar heat capacity at constant pressure Cp=Cv+R
+			   //final float Cv = (float) 12.5;//Specific molar heat capacity at constant volume Cv= Cp-R
+			
 			   float moles;//this is the number of moles
 			   float tempInKelvin;//temperature in kelvin
 			   float volume1;
@@ -322,7 +319,6 @@ public class Cycles_2nd_Law
 			   float Q;//heat flow
 			   float U;//internal energy
 			   float S;//entropy
-			   float K;//adiabatic condition K=PV^gamma ; gamma = Cp/Cv
 			   float Pinitial;//initial pressure calculated from ideal gas law PV=nRT
 			   float Pfinal;//final pressure calculated from the ideal gas law PV=nRT
 			   
@@ -360,13 +356,22 @@ public class Cycles_2nd_Law
 							   +"or a value of zero");
 					   volume1 = keyBoard.nextFloat();
 					 } while(volume1<=0);
+					 
+			  //prompt the user to enter the final volume V2
+					 do
+					 {
+						//prompt the user to enter the final volume
+						   System.out.println("Enter the final volume(m^3) of the \n"
+								  +"isobar remember you cannot have negative values \n"
+								  +"or a value of zero");
+						   volume2 = keyBoard.nextFloat();
+					  }while(volume2<=0);
 			   
 			   //calculate the initial pressure using P = nRT/V
-			   	Pinitial = (moles*R*tempInKelvin)/volume1;
-			   	
-			   	
-			   	//calculate the adiabatic condition K = PV^gamma
-			   	 K = (float) (Pinitial * Math.pow(volume1, gamma));
+					 Pinitial = Adiabatic.adiabaticCalculationsPressure1(moles, tempInKelvin, volume1);
+					 
+			   //calculate the final pressure using P=nRT/V
+					 Pfinal = Adiabatic.adiabaticCalculationsPressure2(moles, tempInKelvin, volume2);
 			   
 			   //prompt the user to enter the final volume V2
 					do
@@ -380,14 +385,14 @@ public class Cycles_2nd_Law
 					}while(volume2<=0);
 					
 			   //calculate work which is w = K(Vf^(1-gamma)-Vi^(1-gamma))/(1-gamma)
-			   	work = (float)(K*(Math.pow(volume2, (1-gamma))-Math.pow(volume1, (1-gamma))))/(1-gamma);
+			   	work = Adiabatic.adiabaticculationsWork(volume2, volume1);
 			   
 			    
 			   //calculate Q = 0 for adiabatic processes
-			    Q= 0;
+			    Q= Adiabatic.adiabaticCalculationsQ();
 			    
 			    //calculate U = -work 
-			    U= -1*work;
+			    U= Adiabatic.adiabaticCalculationsU(volume2, volume1);
 			    
 			   //display the total work which is w = K(Vf^(1-gamma)-Vi^(1-gamma))/(1-gamma) 
 			   System.out.print("Total work(joules)= ");
@@ -413,7 +418,6 @@ public class Cycles_2nd_Law
 			 *******************************/ 
 		public static void isoTherm()
 		   {
-			   final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k) 
 			   float moles;//this is the number of moles
 			   float tempInKelvin;//temperature in kelvin
 			   float volume1;
@@ -434,7 +438,7 @@ public class Cycles_2nd_Law
 			   {
 				   //prompt the user to enter the temperature in kelvin
 				   System.out.println("Enter The temperature of the \n"
-						   +"adiabat in kelvin remember you cannot have negative values in the \n"
+						   +"isotherm in kelvin remember you cannot have negative values in the \n"
 						   +"Kelvin scale or a value of zero");
 				   tempInKelvin = keyBoard.nextFloat();
 			   
@@ -471,13 +475,15 @@ public class Cycles_2nd_Law
 					}while(volume2<=0);
 			   
 			   //calculate the work which is nRT=ln(V2/V1)
-			    work =  (float) (R*moles*tempInKelvin*Math.log(volume2/volume1));
+			   //call the work method in the isoThermal class
+				work=IsoThermal.isothermCalculationsWork(moles, volume1, volume2, tempInKelvin);
 			    
 			   //calculate Q = work
-			    Q= work;
+			   //call the calculate Q method in the Isothermal class
+			    Q= IsoThermal.isothermalCalculationsQ(moles, volume1, volume2, tempInKelvin);
 			    
 			    //calculate U = 0 cause delta Q = constant
-			    U=0;
+			    U=IsoThermal.isothermalCalculationsU();
 			    
 			   //display the total work
 			   System.out.print("Total work(joules)= ");
@@ -493,28 +499,6 @@ public class Cycles_2nd_Law
 			   		+ "so U= ");
 			   System.out.format(" %-10.2f%n",U);
 			   
-			   /************************************************************************************
-			    * **********************************************************************************
-			    * Note: calculate the entropy (S)
-			    *for a state change from initial value and temperature 
-			    *V1 and T1 to to final volume and the same temperature
-			    *V2 and T1 
-			    * Entropy for this case is equal to 
-			    * 	integrals of du/T + integral of Pdv/T
-			    * 	which simplifies to delta S = NRTln(V2/V1) notice du=0 for isothermal process
-			    * 
-			    * FREE EXPANSION:
-			    * 	S(system)= NRTln(V2/V1) and S(surroundings)=0
-			    * since:
-			    * 	S(total)= S(system)+ S(surroundings)
-			    * 	So S(total)=NRTln(V2/V1)+0
-			    * 
-			    * FOR THE REVERSIBLE ISOTHERMAL PROCESS:
-			    * 	S(system)= NRTln(V2/V1) and S(surroundings)= -NRTln(V2/V1)
-			    * So:
-			    * 	S(total)=0
-			    ************************************************************************************
-			    ************************************************************************************/
 			   
 			//ask the user if he/she wants the entropy for Free Expansion or 
 			//for the reversible isothermal process
@@ -527,11 +511,13 @@ public class Cycles_2nd_Law
 				   userChoice = keyBoard.nextFloat();   
 			   
 			   } while(userChoice<1||userChoice>2);
+			   
 			   //free expansion calculation
 			   if(userChoice== 1)
 			   {
 				   //calculate the entropy for Free expansion
-				   S= (moles*R*tempInKelvin*(float)Math.log(volume2/volume1));
+				   //call the calculate S method in the isoThermal method
+				   S= IsoThermal.isothermalCalculationsS(moles, volume1, volume2, tempInKelvin);
 				   System.out.print("Free Expansion Entropy = ");
 				   System.out.format("%-10.4f%n",S);   
 			   }

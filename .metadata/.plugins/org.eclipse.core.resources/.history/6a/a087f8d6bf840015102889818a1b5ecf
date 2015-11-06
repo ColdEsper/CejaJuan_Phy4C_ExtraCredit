@@ -1,0 +1,73 @@
+package PhysicsExtraCredit;
+
+public class Adiabatic 
+{
+	public static float adiabaticculationsWork(float volume2,float volume1,)
+	{
+		final float Cp = (float) 20.81451;//specfic molar heat capacity at constant pressure Cp=Cv+R
+		final float Cv = (float) 12.5;//Specific molar heat capacity at constant volume Cv= Cp-R
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		final float gamma = (float)1.6651;//ratio of Cp/Cv different
+	    final float K = (float)1.6651608;//adiabatic condition K=PV^gamma ; gamma = Cp/Cv
+		float work;
+		//calculate work which is w = K(Vf^(1-gamma)-Vi^(1-gamma))/(1-gamma)
+	   	work = (float)(K*(Math.pow(volume2, (1-gamma))-Math.pow(volume1, (1-gamma))))/(1-gamma);
+	   
+	    
+	   return work;
+	}
+	
+	public static float adiabaticCalculationsQ(float Cv,float volume1,float Pfinal,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float Q;
+		 Q= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+		 
+		 return Q;
+	}
+	
+	public static float adiabaticCalculationsS(float moles,float Cv, float tempFinal,float tempInitial)
+	{
+		float S;
+		
+		//calculate the entropy for Free expansion
+		 S= (moles*Cv*(float)Math.log((tempFinal-tempInitial)));
+		 
+		 return S;
+	}
+	
+	public static float adiabaticCalculationsU(float Cv,float volume1,float Pfinal,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float U;
+		
+		//calculate the entropy for Free expansion
+		U= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+		 
+		 return U;
+	}
+	
+
+	public static float adiabaticCalculationsPressure1(float moles,float volume1,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float temp1;
+		
+		//calculate the entropy for Free expansion
+		 temp1= ((Pinitial* volume1)/(moles*R));
+		 
+		 return temp1;
+	}
+	
+	public static float adiabaticCalculationsPressure2(float moles,float volume1,float Pfinal)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float temp2 ;
+		
+		//calculate the entropy for Free expansion
+		temp2= ((Pfinal*volume1)/(moles*R));
+		 
+		 return temp2;
+	}
+
+}

@@ -1,0 +1,126 @@
+package PhysicsExtraCredit;
+
+import java.util.Scanner;
+
+public class IsoThermal 
+{ 
+	 final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k) 
+	 float volume1;
+	 float volume2;
+	 float moles;
+     float tempInKelvin;
+	 float work;//work
+	 float Q;//heat flow
+	 float U;//internal energy
+	 float S;//entropy
+	
+	//create a static method that display the input/output 
+	//stuff
+	
+	public static void displayIsothermalInfo()
+	{
+		//instantiate a scanner object
+		   @SuppressWarnings("resource")
+		Scanner keyBoard = new Scanner(System.in);
+		     
+		 //prompt the user to enter the temperature in kelvin
+		   do
+		   {
+			   //prompt the user to enter the temperature in kelvin
+			   System.out.println("Enter The temperature of the \n"
+					   +"adiabat in kelvin remember you cannot have negative values in the \n"
+					   +"Kelvin scale or a value of zero");
+			   tempInKelvin = keyBoard.nextFloat();
+		   
+		   }while(tempInKelvin<=0);
+		   
+		 //prompt the user to enter the moles
+			  do
+			  { 
+				  System.out.println("Enter the number of moles(n) the \n"
+					   +"it must be greater than zero");
+				  moles = keyBoard.nextFloat();
+				   
+			  }while(moles<=0);
+		   
+			//prompt the user to enter the initial volume
+				 do
+				 {
+					  //validate the input to make sure its greater then zero
+					  System.out.println("Enter the volume(meters^3) of the \n"
+						   +"adiabat remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume1 = keyBoard.nextFloat();
+				 } while(volume1<=0);
+		   
+		   //prompt the user to enter the final volume V2
+				do
+				{
+					//prompt the user to enter the final volume
+				   System.out.println("Enter the final volume(m^3) of the \n"
+						   +"adiabat remember you cannot have negative values \n"
+						   +"or a value of zero");
+				   volume2 = keyBoard.nextFloat();
+			   
+				}while(volume2<=0);
+		     
+		   //display the total work
+		   System.out.print("Total work(joules)= ");
+		   System.out.format(" %-10.4f%n",work);
+		   
+		   //display the amount of heat Q 
+		   System.out.print("\nNote:\nQ=work for and isothermal process\n"
+		   		+ "so Q= ");
+		   System.out.format(" %-10.4f%n",Q);
+		   
+		 //display the amount of internal energy U 
+		   System.out.print("\nNote:\nU= 0 for and isothermal process\n"
+		   		+ "so U= ");
+		   System.out.format(" %-10.2f%n",U);
+		   
+		   /************************************************************************************
+		    * **********************************************************************************
+		    * Note: calculate the entropy (S)
+		    *for a state change from initial value and temperature 
+		    *V1 and T1 to to final volume and the same temperature
+		    *V2 and T1 
+		    * Entropy for this case is equal to 
+		    * 	integrals of du/T + integral of Pdv/T
+		    * 	which simplifies to delta S = NRTln(V2/V1) notice du=0 for isothermal process
+		    * 
+		    * FREE EXPANSION:
+		    * 	S(system)= NRTln(V2/V1) and S(surroundings)=0
+		    * since:
+		    * 	S(total)= S(system)+ S(surroundings)
+		    * 	So S(total)=NRTln(V2/V1)+0
+		    * 
+		    * FOR THE REVERSIBLE ISOTHERMAL PROCESS:
+		    * 	S(system)= NRTln(V2/V1) and S(surroundings)= -NRTln(V2/V1)
+		    * So:
+		    * 	S(total)=0
+		    ************************************************************************************
+		    ************************************************************************************/
+		
+	}
+	
+	
+	//create a method that calculates work,U,Q,and S 
+	//it must accept moles, temp, volume1, volume 2as arguments
+	public static void isothermCalculations(moles,temp,volume1,volume2)
+	{
+	   //calculate the work which is nRT=ln(V2/V1)
+	    work =  (float) (R*moles*tempInKelvin*Math.log(volume2/volume1));
+	    
+	   //calculate Q = work
+	    Q= work;
+	    
+	   //calculate U = 0 cause delta Q = constant
+	    U=0;
+	    
+	  //calculate the entropy for Free expansion
+		S= (moles*R*tempInKelvin*(float)Math.log(volume2/volume1));
+		
+	}
+
+}
+
