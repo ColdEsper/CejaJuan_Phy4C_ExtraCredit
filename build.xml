@@ -5,11 +5,12 @@
 		<javac includeantruntime="false" srcdir="${src}" destdir="${build}" />
 	</target>
 	<target name="run" description="runs Main.class">
-		<java dir="${build}" classname="PhysicsExtraCredit/Main" fork="true" failonerror="true" args="gui">
+		<java dir="${build}" classname="PhysicsExtraCredit/Main" fork="true" failonerror="true">
 			<classpath>
 				<pathelement location="${build}" />
 				<pathelement path="${java.class.path}" />
 			</classpath>
+			<arg value="gui" />
 		</java>
 	</target>
 </project>
