@@ -1,0 +1,39 @@
+package PhysicsExtraCredit;
+
+public class IsoBar 
+{
+	public static float isobarCalculationsU(float Cv,float volume1,float Pfinal,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float U;
+		
+		//calculate the entropy for Free expansion
+		U= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+		 
+		 return U;
+	}
+	
+
+	public static float isobarCalculationsTempWork(float moles,float volume1,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float temp1;
+		
+		//calculate the entropy for Free expansion
+		 temp1= ((Pinitial* volume1)/(moles*R));
+		 
+		 return temp1;
+	}
+	
+	public static float isobarCalculationsQ(float moles,float volume1,float Pfinal)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float temp2 ;
+		
+		//calculate the entropy for Free expansion
+		temp2= ((Pfinal*volume1)/(moles*R));
+		 
+		 return temp2;
+	}
+
+}

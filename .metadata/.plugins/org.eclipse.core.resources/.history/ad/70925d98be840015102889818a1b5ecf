@@ -1,0 +1,67 @@
+package PhysicsExtraCredit;
+
+public class Adiabatic 
+{
+	public static float adiabaticculationsWork()
+	{
+		float work;
+	   //calculate the work which is nRT=ln(V2/V1)
+	    work = 0;
+	    
+	   return work;
+	}
+	
+	public static float adiabaticCalculationsQ(float Cv,float volume1,float Pfinal,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float Q;
+		 Q= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+		 
+		 return Q;
+	}
+	
+	public static float adiabaticCalculationsS(float moles,float Cv, float tempFinal,float tempInitial)
+	{
+		float S;
+		
+		//calculate the entropy for Free expansion
+		 S= (moles*Cv*(float)Math.log((tempFinal-tempInitial)));
+		 
+		 return S;
+	}
+	
+	public static float adiabaticCalculationsU(float Cv,float volume1,float Pfinal,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float U;
+		
+		//calculate the entropy for Free expansion
+		U= (Cv/R)*(volume1 *(Pfinal - Pinitial));
+		 
+		 return U;
+	}
+	
+
+	public static float adiabaticCalculationsTemp1(float moles,float volume1,float Pinitial)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float temp1;
+		
+		//calculate the entropy for Free expansion
+		 temp1= ((Pinitial* volume1)/(moles*R));
+		 
+		 return temp1;
+	}
+	
+	public static float adiabaticCalculationsTemp2(float moles,float volume1,float Pfinal)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k)
+		float temp2 ;
+		
+		//calculate the entropy for Free expansion
+		temp2= ((Pfinal*volume1)/(moles*R));
+		 
+		 return temp2;
+	}
+
+}

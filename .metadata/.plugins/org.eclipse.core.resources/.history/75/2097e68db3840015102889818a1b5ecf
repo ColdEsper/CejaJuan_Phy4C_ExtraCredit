@@ -1,0 +1,36 @@
+package PhysicsExtraCredit;
+
+public class IsoThermal 
+{ 
+	
+	//create a static method that display the input/output 
+	//stuff
+	
+	
+	//create a method that calculates work,U,Q,and S 
+	//it must accept moles, temp, volume1, volume 2as agruments
+	public static void isothermCalculations(moles,temp,volume1,volume2)
+	{
+		final float R = (float) 8.314; //this is the ideal gas law units J/(mol*k) 
+		float volume1;
+		float volume2;
+		float work;//work
+		float Q;//heat flow
+		float U;//internal energy
+		float S;//entropy
+		
+	   //calculate the work which is nRT=ln(V2/V1)
+	    work =  (float) (R*moles*tempInKelvin*Math.log(volume2/volume1));
+	    
+	   //calculate Q = work
+	    Q= work;
+	    
+	   //calculate U = 0 cause delta Q = constant
+	    U=0;
+	    
+	  //calculate the entropy for Free expansion
+		S= (moles*R*tempInKelvin*(float)Math.log(volume2/volume1));
+		
+	}
+
+}
