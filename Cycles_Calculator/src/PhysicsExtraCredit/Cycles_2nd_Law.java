@@ -6,10 +6,10 @@ import java.util.*;
 public class Cycles_2nd_Law
 {
 	/*******************************
-	 * Main Method                 *
+	 * Command Line Main Method    *
 	 * Execution begins here       * 
 	 *******************************/
-	public static void main(String[] args) 
+	public static void commandLineMain(String[] args) 
 	{ 
 	  int userPick;
 	  final int isoChor = 1;

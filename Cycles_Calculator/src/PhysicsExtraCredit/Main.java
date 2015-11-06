@@ -1,3 +1,5 @@
+package PhysicsExtraCredit;
+
 import java.util.ArrayList;
 import java.awt.*;
 import javax.swing.*;
@@ -21,12 +23,16 @@ class Graph extends JPanel {
 public class Main {
 	Cycle cyc;
 	public static void main(String args[]) {
-		JFrame frame = new JFrame("Cycle Calculation");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Graph graph = new Graph("X-Axis","Y-Axis");
-		frame.add(graph);
-		frame.setSize(640,640);
-		frame.setVisible(true);
+		if (args.length > 0 && args[0].toLowerCase().equals("gui")) {
+			JFrame frame = new JFrame("Cycle Calculation");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			Graph graph = new Graph("X-Axis","Y-Axis");
+			frame.add(graph);
+			frame.setSize(640,640);
+			frame.setVisible(true);
+		} else {
+			Cycles_2nd_Law.commandLineMain(args);
+		}
 	}
 }
 

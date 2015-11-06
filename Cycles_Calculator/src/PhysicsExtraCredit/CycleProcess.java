@@ -1,3 +1,5 @@
+package PhysicsExtraCredit;
+
 //Process is the edge of the graph
 public class CycleProcess {
 	public enum ProcessType {
