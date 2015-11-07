@@ -28,36 +28,36 @@ public class IsoThermal
 	
 	//create a method that calculates work,U,Q,and S 
 	//it must accept moles, temp, volume1, volume 2
-	public static double isothermCalculationsWork(double moles,double volume1, double volume2,double tempInKelvin)
+	public static float isothermCalculationsWork(float moles,float volume1, float volume2,float tempInKelvin)
 	{
-		double work;
+		float work;
 	   //calculate the work which is nRT=ln(V2/V1)
-	    work =  (double) (Cycle.R*moles*tempInKelvin*Math.log(volume2/volume1));
+	    work =  (float) (Cycle.R*moles*tempInKelvin*Math.log(volume2/volume1));
 	    
 	   return work;
 	}
 	
-	public static double isothermalCalculationsQ(double moles,double volume1, double volume2,double tempInKelvin)
+	public static float isothermalCalculationsQ(float moles,float volume1, float volume2,float tempInKelvin)
 	{
-		double Q;
-		 Q =  (double) (Cycle.R*moles*tempInKelvin*Math.log(volume2/volume1));
+		float Q;
+		 Q =  (float) (Cycle.R*moles*tempInKelvin*Math.log(volume2/volume1));
 		 
 		 return Q;
 	}
 	
-	public static double isothermalCalculationsS(double moles,double volume1, double volume2,double tempInKelvin)
+	public static float isothermalCalculationsS(float moles,float volume1, float volume2,float tempInKelvin)
 	{
-		double S;
+		float S;
 		
 		//calculate the entropy for Free expansion
-		S= (moles*Cycle.R*tempInKelvin*(double)Math.log(volume2/volume1));
+		S= (moles*Cycle.R*tempInKelvin*(float)Math.log(volume2/volume1));
 		 
 		 return S;
 	}
 	
-	public static double isothermalCalculationsU()
+	public static float isothermalCalculationsU()
 	{
-		double U;
+		float U;
 		
 		//calculate the entropy for Free expansion
 		U= 0;

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class CycleNode {
 	CycleNode () {
-		pressure = Double.NaN;
-		temperature = Double.NaN;
-		volume = Double.NaN;
+		pressure = Float.NaN;
+		temperature = Float.NaN;
+		volume = Float.NaN;
 		name = "";
 	}
-	double pressure;
-	double temperature;
-	double volume;
+	float pressure;
+	float temperature;
+	float volume;
 	String name;
 }

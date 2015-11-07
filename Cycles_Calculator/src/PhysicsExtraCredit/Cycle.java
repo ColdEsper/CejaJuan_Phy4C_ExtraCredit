@@ -10,8 +10,8 @@ public class Cycle {
 	ArrayList<CycleProcess> processes;
 	//nodes that have initial values, which will be used for starting 
 	//points of calculating the other values
-	public double moles;
-	public final static double R =  8.314; //this is the ideal gas law units J/(mol*k)
+	public float moles;
+	public final static float R =  8.314f; //this is the ideal gas law units J/(mol*k)
 	public static CycleData loadFile (String fileName) throws IOException {
 		CycleData cycData = new CycleData ();
 		Scanner readFile = new Scanner(fileName);
@@ -19,7 +19,7 @@ public class Cycle {
 			String data = readFile.nextLine();
 			if (data.toLowerCase().trim().startsWith("moles:")) {
 				String mol = data.toLowerCase().trim().substring(6);
-				cycData.moles = Double.valueOf(mol);
+				cycData.moles = Float.valueOf(mol);
 			}
 			else if (data.toLowerCase().trim().startsWith("process:")) {
 				String procData = data.toLowerCase().substring(8);
@@ -50,13 +50,13 @@ public class Cycle {
 						}
 					} else if (procs[i].toLowerCase().startsWith("heat=")) {
 						String doub = procs[i].toLowerCase().substring(5);
-						loadProcess.heatChange=Double.valueOf(doub);
+						loadProcess.heatChange=Float.valueOf(doub);
 					} else if (procs[i].toLowerCase().startsWith("work=")) {
 						String doub = procs[i].toLowerCase().substring(5);
-						loadProcess.workChange=Double.valueOf(doub);
+						loadProcess.workChange=Float.valueOf(doub);
 					} else if (procs[i].toLowerCase().startsWith("energy=")) {
 						String doub = procs[i].toLowerCase().substring(7);
-						loadProcess.energyChange=Double.valueOf(doub);
+						loadProcess.energyChange=Float.valueOf(doub);
 					} else {
 						throw new IOException ("Malformed process data in file "+fileName);
 					}
@@ -71,13 +71,13 @@ public class Cycle {
 						loadNode.name = procs[i].toLowerCase().substring(6);
 					} else if (procs[i].toLowerCase().trim().startsWith("pressure=")) {
 						String doub = procs[i].toLowerCase().substring(9);
-						loadNode.pressure=Double.valueOf(doub);
+						loadNode.pressure=Float.valueOf(doub);
 					} else if (procs[i].toLowerCase().trim().startsWith("temperature=")) {
 						String doub = procs[i].toLowerCase().substring(12);
-						loadNode.temperature=Double.valueOf(doub);
+						loadNode.temperature=Float.valueOf(doub);
 					} else if (procs[i].toLowerCase().trim().startsWith("volume=")) {
 						String doub = procs[i].toLowerCase().substring(7);
-						loadNode.temperature=Double.valueOf(doub);
+						loadNode.temperature=Float.valueOf(doub);
 					} else {
 						throw new IOException ("Malformed node data in file "+fileName);
 					}
@@ -124,20 +124,20 @@ public class Cycle {
 		}
 		//TODO calculations to find as much data as possible about the other points
 	}
-	public static double energy (double deltaWork,double deltaHeat) {
+	public static float energy (float deltaWork,float deltaHeat) {
 		return (deltaHeat-deltaWork);
 	}
-	public static double energy (double moles, double voulmeMolarCapacity, double deltaTemperature) {
+	public static float energy (float moles, float voulmeMolarCapacity, float deltaTemperature) {
 		return (moles*voulmeMolarCapacity*deltaTemperature);
 	}
-	public static double work (double deltaEnergy,double deltaHeat) {
+	public static float work (float deltaEnergy,float deltaHeat) {
 		return (deltaHeat-deltaEnergy);
 	}
-	public static double heat (double deltaEnergy,double deltaWork) {
+	public static float heat (float deltaEnergy,float deltaWork) {
 		return (deltaEnergy+deltaWork);
 	}
-	public static double isobaricWork (double pressure,double startVolume, double endVolume) {
+	public static float isobaricWork (float pressure,float startVolume, float endVolume) {
 		return (pressure*(endVolume-startVolume));
 	}
-	public static final double ISOCHORIC_WORK = 0.0;
+	public static final float ISOCHORIC_WORK = 0.0f;
 }

@@ -10,17 +10,17 @@ public class CycleProcess {
 		ISOCHORIC,
 	}
 	CycleProcess () {
-		heatChange = Double.NaN;
-		workChange = Double.NaN;
-		energyChange = Double.NaN;
+		heatChange = Float.NaN;
+		workChange = Float.NaN;
+		energyChange = Float.NaN;
 		type = ProcessType.UNDEFINED;
 		start = null;
 		end = null;
 	}
 	CycleNode start;
 	CycleNode end;
-	double heatChange;
-	double workChange;
-	double energyChange;
+	float heatChange;
+	float workChange;
+	float energyChange;
 	ProcessType type;
 }

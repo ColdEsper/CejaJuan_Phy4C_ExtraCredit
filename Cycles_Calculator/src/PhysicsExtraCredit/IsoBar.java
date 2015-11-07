@@ -2,9 +2,9 @@ package PhysicsExtraCredit;
 
 public class IsoBar 
 {
-	public static double isobarCalculationsU(double moles,double Cp,double tempFinal,double tempInitial)
+	public static float isobarCalculationsU(float moles,float Cp,float tempFinal,float tempInitial)
 	{
-		double U;
+		float U;
 		
 		//calculate internal energy
 		U= (moles*Cp*(tempFinal-tempInitial));
@@ -13,9 +13,9 @@ public class IsoBar
 	}
 	
 
-	public static double isobarCalculationsTempWork(double volume2,double volume1,double Pinitial)
+	public static float isobarCalculationsTempWork(float volume2,float volume1,float Pinitial)
 	{
-		double work;
+		float work;
 		
 		//note work = P(Vf-Vi) for isobaric process
 	   	work = Pinitial*(volume2-volume1);
@@ -23,9 +23,9 @@ public class IsoBar
 		 return work;
 	}
 	
-	public static double isobarCalculationsQ(double moles,double Cp,double tempFinal,double tempInitial)
+	public static float isobarCalculationsQ(float moles,float Cp,float tempFinal,float tempInitial)
 	{
-		double Q ;
+		float Q ;
 		
 		 //calculate Q= nCp(Tf-Ti)
 	    Q= (moles*Cp*(tempFinal-tempInitial));

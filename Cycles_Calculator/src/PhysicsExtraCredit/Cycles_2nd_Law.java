@@ -71,17 +71,17 @@ public class Cycles_2nd_Law
 			 *******************************/
 		  public static void isoChor()
 		   {
-			   double Cv;//Specific molar heat capacity at constant volume Cv= Cp-R
-			   double moles;//this is the number of moles
-			   double volume1;
-			   double work;//work
-			   double Q;//heat flow
-			   double U;//internal energy
-			   double S;//entropy
-			   double tempInitial;//find using PV=nRT
-			   double tempFinal;//find using PV=nRT
-			   double Pinitial;//initial pressure calculated from ideal gas law PV=nRT
-			   double Pfinal;//final pressure calculated from the ideal gas law PV=nRT
+			   float Cv;//Specific molar heat capacity at constant volume Cv= Cp-R
+			   float moles;//this is the number of moles
+			   float volume1;
+			   float work;//work
+			   float Q;//heat flow
+			   float U;//internal energy
+			   float S;//entropy
+			   float tempInitial;//find using PV=nRT
+			   float tempFinal;//find using PV=nRT
+			   float Pinitial;//initial pressure calculated from ideal gas law PV=nRT
+			   float Pfinal;//final pressure calculated from the ideal gas law PV=nRT
 			   
 			   
 		//instantiate a scanner object
@@ -185,17 +185,17 @@ public class Cycles_2nd_Law
 		   
 		   public static void isoBar()
 		   {
-			   double Cp;//Specific molar heat capacity at constant pressure Cp= Cv+R
-			   double moles;//this is the number of moles
-			   double volume1;
-			   double volume2;
-			   double tempInitial;
-			   double tempFinal;
-			   double work;//work
-			   double Q;//heat flow
-			   double U;//internal energy
-			   double S;//entropy
-			   double Pinitial;//initial pressure calculated from ideal gas law PV=nRT
+			   float Cp;//Specific molar heat capacity at constant pressure Cp= Cv+R
+			   float moles;//this is the number of moles
+			   float volume1;
+			   float volume2;
+			   float tempInitial;
+			   float tempFinal;
+			   float work;//work
+			   float Q;//heat flow
+			   float U;//internal energy
+			   float S;//entropy
+			   float Pinitial;//initial pressure calculated from ideal gas law PV=nRT
 			  
 			   
 			   
@@ -308,19 +308,19 @@ public class Cycles_2nd_Law
 		   public static void adiabatic()
 		   {
 			   
-			   //final double Cp = (double) 20.81451;//specfic molar heat capacity at constant pressure Cp=Cv+R
-			   //final double Cv = (double) 12.5;//Specific molar heat capacity at constant volume Cv= Cp-R
+			   //final float Cp = (float) 20.81451;//specfic molar heat capacity at constant pressure Cp=Cv+R
+			   //final float Cv = (float) 12.5;//Specific molar heat capacity at constant volume Cv= Cp-R
 			
-			   double moles;//this is the number of moles
-			   double tempInKelvin;//temperature in kelvin
-			   double volume1;
-			   double volume2;
-			   double work;//work
-			   double Q;//heat flow
-			   double U;//internal energy
-			   double S;//entropy
-			   double Pinitial;//initial pressure calculated from ideal gas law PV=nRT
-			   double Pfinal;//final pressure calculated from the ideal gas law PV=nRT
+			   float moles;//this is the number of moles
+			   float tempInKelvin;//temperature in kelvin
+			   float volume1;
+			   float volume2;
+			   float work;//work
+			   float Q;//heat flow
+			   float U;//internal energy
+			   float S;//entropy
+			   float Pinitial;//initial pressure calculated from ideal gas law PV=nRT
+			   float Pfinal;//final pressure calculated from the ideal gas law PV=nRT
 			   
 			   
 		//instantiate a scanner object
@@ -418,15 +418,15 @@ public class Cycles_2nd_Law
 			 *******************************/ 
 		public static void isoTherm()
 		   {
-			   double moles;//this is the number of moles
-			   double tempInKelvin;//temperature in kelvin
-			   double volume1;
-			   double volume2;
-			   double work;//work
-			   double Q;//heat flow
-			   double U;//internal energy
-			   double S;//entropy
-			   double userChoice;
+			   float moles;//this is the number of moles
+			   float tempInKelvin;//temperature in kelvin
+			   float volume1;
+			   float volume2;
+			   float work;//work
+			   float Q;//heat flow
+			   float U;//internal energy
+			   float S;//entropy
+			   float userChoice;
 			   
 			   
 		//instantiate a scanner object
