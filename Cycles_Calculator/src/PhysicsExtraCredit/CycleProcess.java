@@ -4,7 +4,7 @@ package PhysicsExtraCredit;
 public class CycleProcess {
 	public enum ProcessType {
 		UNDEFINED,
-		ABDIABATIC,
+		ADIABATIC,
 		ISOTHERMAL,
 		ISOBARIC,
 		ISOCHORIC,

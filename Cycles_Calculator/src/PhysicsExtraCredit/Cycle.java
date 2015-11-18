@@ -34,19 +34,20 @@ public class Cycle {
 					assert(procs.length>=3);
 					CycleProcess loadProcess = new CycleProcess();
 					for (int i=0;i<procs.length;++i) {
-						if (procs[i].toLowerCase().trim().startsWith("start=")) {
-							String name = procs[i].toUpperCase().substring(7);
+						String procProp = procs[i].toLowerCase().trim();
+						if (procProp.startsWith("start=")) {
+							String name = procProp.toUpperCase().substring(6);
 							loadProcess.start= new CycleNode();
 							loadProcess.start.name = name;
 						} else if (procs[i].toLowerCase().trim().startsWith("end=")) {
-							String name = procs[i].toUpperCase().substring(5);
+							String name = procProp.toUpperCase().substring(4);
 							loadProcess.end= new CycleNode();
 							loadProcess.end.name = name;
 						}
-						else if (procs[i].toLowerCase().trim().startsWith("type=")) {
-							String type = procs[i].trim().toLowerCase().substring(5);
+						else if (procProp.startsWith("type=")) {
+							String type = procProp.substring(5);
 							if (type.equals("adiabatic")) {
-								loadProcess.type = CycleProcess.ProcessType.ABDIABATIC;
+								loadProcess.type = CycleProcess.ProcessType.ADIABATIC;
 							} else if (type.equals("isothermal")) {
 								loadProcess.type = CycleProcess.ProcessType.ISOTHERMAL;
 							} else if (type.equals("isobaric")) {
@@ -54,14 +55,14 @@ public class Cycle {
 							} else if (type.equals("isochoric")) {
 								loadProcess.type = CycleProcess.ProcessType.ISOCHORIC;
 							}
-						} else if (procs[i].toLowerCase().startsWith("heat=")) {
-							String doub = procs[i].toLowerCase().substring(5);
+						} else if (procProp.startsWith("heat=")) {
+							String doub = procProp.substring(5);
 							loadProcess.heatChange=Float.valueOf(doub);
-						} else if (procs[i].toLowerCase().startsWith("work=")) {
-							String doub = procs[i].toLowerCase().substring(5);
+						} else if (procProp.startsWith("work=")) {
+							String doub = procProp.substring(5);
 							loadProcess.workChange=Float.valueOf(doub);
-						} else if (procs[i].toLowerCase().startsWith("energy=")) {
-							String doub = procs[i].toLowerCase().substring(7);
+						} else if (procProp.startsWith("energy=")) {
+							String doub = procProp.substring(7);
 							loadProcess.energyChange=Float.valueOf(doub);
 						} else {
 							throw new IOException ("Malformed process data in file "+fileName);
