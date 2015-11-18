@@ -10,6 +10,7 @@ class CycleTest {
 			System.out.println("Moles should've been 3.2190908");
 			return;
 		}
+		//test processes
 		if (!CycleTest.testProcess(data.processData.get(0),"A","B",Float.NaN,32.992f,Float.NaN,
 					CycleProcess.ProcessType.ISOTHERMAL)) {
 			System.out.println("Process 0 loaded values are");
@@ -34,6 +35,17 @@ class CycleTest {
 			data.processData.get(3).display();
 			return;
 		}
+		//test nodes
+		if (!CycleTest.testNode(data.nodeData.get(0),"A",35.029f,22.03f,Float.NaN)) {
+			System.out.println("Node 0 loaded values are");
+			data.nodeData.get(0).display();
+			return;
+		}
+		if (!CycleTest.testNode(data.nodeData.get(1),"C",Float.NaN,Float.NaN,200.03f)) {
+			System.out.println("Node 1 loaded values are");
+			data.nodeData.get(1).display();
+			return;
+		}
 		System.out.println("Load test was Successful!!!");
 	}
 	private static boolean testProcess (CycleProcess proc, String startNodeName, String endNodeName,
@@ -46,16 +58,37 @@ class CycleTest {
 			System.out.println("Process loaded incorrectly for end node");
 			return false;
 		}
-		testChangeVal(proc.heatChange, Float.NaN,"Value initialization incorrect for heatChange of process");
-		testChangeVal(proc.workChange, Float.NaN,"Value initialization incorrect for workChange of process");
-		testChangeVal(proc.energyChange, Float.NaN,"Value initialization incorrect for energyChange of process");
+		if(!testFloatVal(proc.heatChange, Float.NaN,"Value initialization incorrect for heatChange of process")) {
+			return false;
+		}
+		if(!testFloatVal(proc.workChange, Float.NaN,"Value initialization incorrect for workChange of process")) {
+			return false;
+		}
+		if (!testFloatVal(proc.energyChange, Float.NaN,"Value initialization incorrect for energyChange of process")) {
+			return false;
+		}
 		if (proc.type != procType) {
 			System.out.println("Process type loaded incorrectly for process");
 			return false;
 		}
 		return true;
 	}
-	private static boolean testChangeVal (float actual, float correct, String errMsg) {
+	private static boolean testNode (CycleNode node, String nodeName, float pressure, float volume, float temperature) {
+		if (!node.name.equals(nodeName)) {
+			return false;
+		}
+		if (!testFloatVal(node.pressure,pressure,"Pressure loaded incorrectly for node")) {
+			return false;
+		}
+		if (!testFloatVal(node.temperature,temperature,"temperature loaded incorrectly for node")) {
+			return false;
+		}
+		if (!testFloatVal(node.temperature,volume,"volume loaded incorrectly for node")) {
+			return false;
+		}
+		return true;
+	}
+	private static boolean testFloatVal (float actual, float correct, String errMsg) {
 		boolean error = false;
 		if (Float.isNaN(correct)) {
 			if (!Float.isNaN(actual)) {

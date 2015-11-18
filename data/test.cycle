@@ -1,6 +1,7 @@
 moles: 3.2190908
 process: work=32.992, type=isothermal, start=A, end=B
-process: type=adiabatic, end=C, start=B
-process: type=isothermal, start=C, end=D, heat=80.23, energy=999.98
-process: type=adiabatic, start=D, work=39.7, end=A, heat=88.88
+process: type=adiabatic, end=C, start=b
+process: type=isothermal, start=C, end=d, heat=80.23, energy=999.98
+process: type=adiabatic, start=D, work=39.7, end=a, heat=88.88
 node: pressure=35.029, volume=22.03, name=A
+node: name=c, temperature=200.03

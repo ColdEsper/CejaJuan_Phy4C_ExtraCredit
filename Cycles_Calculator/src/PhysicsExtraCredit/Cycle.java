@@ -76,7 +76,7 @@ public class Cycle {
 					for (int i=0;i<props.length;++i) {
 						String nodeProperty = props[i].toLowerCase().trim();
 						if (nodeProperty.startsWith("name=")) {
-							loadNode.name = nodeProperty.toUpperCase().substring(6);
+							loadNode.name = nodeProperty.toUpperCase().substring(5);
 						} else if (nodeProperty.startsWith("pressure=")) {
 							String doub = nodeProperty.substring(9);
 							loadNode.pressure=Float.valueOf(doub);
@@ -89,9 +89,8 @@ public class Cycle {
 						} else {
 							throw new IOException ("Malformed node data in file "+fileName);
 						}
-						cycData.nodeData.add(loadNode);
-						cycData.nodeData.add(loadNode);
 					}
+					cycData.nodeData.add(loadNode);
 				} else {
 					throw new IOException ("Malformed line\n"+data+"\nin file "+fileName);
 				}
