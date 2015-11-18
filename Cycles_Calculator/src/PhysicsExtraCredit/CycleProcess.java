@@ -17,6 +17,14 @@ public class CycleProcess {
 		start = null;
 		end = null;
 	}
+	public void display () {
+		System.out.println("Start: "+start);
+		System.out.println("End: "+end);
+		System.out.println("Heat: "+heatChange);
+		System.out.println("Work: "+workChange);
+		System.out.println("Energy: "+energyChange);
+		System.out.println("Type: "+type);
+	}
 	CycleNode start;
 	CycleNode end;
 	float heatChange;

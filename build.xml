@@ -1,6 +1,7 @@
 <project name="Cycle" default="compile" basedir=".">
 	<property name="src" location="Cycles_Calculator/src/PhysicsExtraCredit" />
 	<property name="build" location="build" />
+	<property name="build" location="data" />
 	<target name="compile" description="compile the source">
 		<javac includeantruntime="false" srcdir="${src}" destdir="${build}" />
 	</target>
@@ -11,6 +12,15 @@
 				<pathelement path="${java.class.path}" />
 			</classpath>
 			<arg value="gui" />
+		</java>
+	</target>
+	<target name="test" description="runs test classes">
+		<java dir="${build}" classname="PhysicsExtraCredit/CycleTest" fork="true" failonerror="true">
+			<classpath>
+				<pathelement location="${build}" />
+				<pathelement location="${data}" />
+				<pathelement path="${java.class.path}" />
+			</classpath>
 		</java>
 	</target>
 </project>

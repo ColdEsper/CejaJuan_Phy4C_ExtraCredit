@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
+import java.io.File;
 
 public class Cycle {
 	Hashtable<String, CycleNode> nodes;
@@ -12,80 +13,88 @@ public class Cycle {
 	//points of calculating the other values
 	public float moles;
 	public final static float R =  8.314f; //this is the ideal gas law units J/(mol*k)
+	public final static String DATA_DIR = "../data/";
 	public static CycleData loadFile (String fileName) throws IOException {
 		CycleData cycData = new CycleData ();
-		Scanner readFile = new Scanner(fileName);
+		File dataFile = new File(DATA_DIR+fileName);
+		if (!dataFile.isFile()) {
+			throw new IOException ("File "+fileName+" non-existant!");
+		}
+		Scanner readFile = new Scanner(dataFile);
 		try {
-			String data = readFile.nextLine();
-			if (data.toLowerCase().trim().startsWith("moles:")) {
-				String mol = data.toLowerCase().trim().substring(6);
-				cycData.moles = Float.valueOf(mol);
-			}
-			else if (data.toLowerCase().trim().startsWith("process:")) {
-				String procData = data.toLowerCase().substring(8);
-				String[] procs = procData.split(",");
-				assert(procs.length>=3);
-				CycleProcess loadProcess = new CycleProcess();
-				for (int i=0;i<procs.length;++i) {
-					if (procs[i].toLowerCase().trim().startsWith("start=")) {
-						String name = procs[i].toLowerCase().substring(6);
-						loadProcess.start= new CycleNode();
-						loadProcess.start.name = name;
-					} else if (procs[i].toLowerCase().trim().startsWith("end=")) {
-						String name = procs[i].toLowerCase().substring(6);
-						loadProcess.start= new CycleNode();
-						loadProcess.end= new CycleNode();
-						loadProcess.end.name = name;
-					}
-					else if (procs[i].toLowerCase().trim().startsWith("type=")) {
-						String type = procs[i].trim().toLowerCase().substring(5);
-						if (type.equals("abdiabatic")) {
-							loadProcess.type = CycleProcess.ProcessType.ABDIABATIC;
-						} else if (type.equals("isothermal")) {
-							loadProcess.type = CycleProcess.ProcessType.ISOTHERMAL;
-						} else if (type.equals("isobaric")) {
-							loadProcess.type = CycleProcess.ProcessType.ISOBARIC;
-						} else if (type.equals("isochoric")) {
-							loadProcess.type = CycleProcess.ProcessType.ISOCHORIC;
+			while (readFile.hasNextLine()) {
+				String data = readFile.nextLine();
+				if (data.toLowerCase().trim().startsWith("moles:")) {
+					String mol = data.toLowerCase().trim().substring(6);
+					cycData.moles = Float.valueOf(mol);
+				}
+				else if (data.toLowerCase().trim().startsWith("process:")) {
+					String procData = data.toLowerCase().substring(8);
+					String[] procs = procData.split(",");
+					assert(procs.length>=3);
+					CycleProcess loadProcess = new CycleProcess();
+					for (int i=0;i<procs.length;++i) {
+						if (procs[i].toLowerCase().trim().startsWith("start=")) {
+							String name = procs[i].toLowerCase().substring(6);
+							loadProcess.start= new CycleNode();
+							loadProcess.start.name = name;
+						} else if (procs[i].toLowerCase().trim().startsWith("end=")) {
+							String name = procs[i].toLowerCase().substring(5);
+							loadProcess.start= new CycleNode();
+							loadProcess.end= new CycleNode();
+							loadProcess.end.name = name;
 						}
-					} else if (procs[i].toLowerCase().startsWith("heat=")) {
-						String doub = procs[i].toLowerCase().substring(5);
-						loadProcess.heatChange=Float.valueOf(doub);
-					} else if (procs[i].toLowerCase().startsWith("work=")) {
-						String doub = procs[i].toLowerCase().substring(5);
-						loadProcess.workChange=Float.valueOf(doub);
-					} else if (procs[i].toLowerCase().startsWith("energy=")) {
-						String doub = procs[i].toLowerCase().substring(7);
-						loadProcess.energyChange=Float.valueOf(doub);
-					} else {
-						throw new IOException ("Malformed process data in file "+fileName);
+						else if (procs[i].toLowerCase().trim().startsWith("type=")) {
+							String type = procs[i].trim().toLowerCase().substring(5);
+							if (type.equals("adiabatic")) {
+								loadProcess.type = CycleProcess.ProcessType.ABDIABATIC;
+							} else if (type.equals("isothermal")) {
+								loadProcess.type = CycleProcess.ProcessType.ISOTHERMAL;
+							} else if (type.equals("isobaric")) {
+								loadProcess.type = CycleProcess.ProcessType.ISOBARIC;
+							} else if (type.equals("isochoric")) {
+								loadProcess.type = CycleProcess.ProcessType.ISOCHORIC;
+							}
+						} else if (procs[i].toLowerCase().startsWith("heat=")) {
+							String doub = procs[i].toLowerCase().substring(5);
+							loadProcess.heatChange=Float.valueOf(doub);
+						} else if (procs[i].toLowerCase().startsWith("work=")) {
+							String doub = procs[i].toLowerCase().substring(5);
+							loadProcess.workChange=Float.valueOf(doub);
+						} else if (procs[i].toLowerCase().startsWith("energy=")) {
+							String doub = procs[i].toLowerCase().substring(7);
+							loadProcess.energyChange=Float.valueOf(doub);
+						} else {
+							throw new IOException ("Malformed process data in file "+fileName);
+						}
 					}
-				}
-				cycData.processData.add(loadProcess);
-			} else if (data.toLowerCase().trim().startsWith("node:")) {
-				String nodeData = data.trim().toLowerCase().substring(5);
-				String[] procs = nodeData.split(",");
-				CycleNode loadNode = new CycleNode();
-				for (int i=0;i<procs.length;++i) {
-					if (procs[i].toLowerCase().trim().startsWith("name=")) {
-						loadNode.name = procs[i].toLowerCase().substring(6);
-					} else if (procs[i].toLowerCase().trim().startsWith("pressure=")) {
-						String doub = procs[i].toLowerCase().substring(9);
-						loadNode.pressure=Float.valueOf(doub);
-					} else if (procs[i].toLowerCase().trim().startsWith("temperature=")) {
-						String doub = procs[i].toLowerCase().substring(12);
-						loadNode.temperature=Float.valueOf(doub);
-					} else if (procs[i].toLowerCase().trim().startsWith("volume=")) {
-						String doub = procs[i].toLowerCase().substring(7);
-						loadNode.temperature=Float.valueOf(doub);
-					} else {
-						throw new IOException ("Malformed node data in file "+fileName);
+					cycData.processData.add(loadProcess);
+				} else if (data.toLowerCase().trim().startsWith("node:")) {
+					String nodeData = data.trim().toLowerCase().substring(5);
+					String[] props = nodeData.split(",");
+					CycleNode loadNode = new CycleNode();
+					for (int i=0;i<props.length;++i) {
+						String nodeProperty = props[i].toLowerCase().trim();
+						if (nodeProperty.startsWith("name=")) {
+							loadNode.name = nodeProperty.substring(6);
+						} else if (nodeProperty.startsWith("pressure=")) {
+							String doub = nodeProperty.substring(9);
+							loadNode.pressure=Float.valueOf(doub);
+						} else if (nodeProperty.startsWith("temperature=")) {
+							String doub = nodeProperty.substring(12);
+							loadNode.temperature=Float.valueOf(doub);
+						} else if (nodeProperty.startsWith("volume=")) {
+							String doub = nodeProperty.substring(7);
+							loadNode.temperature=Float.valueOf(doub);
+						} else {
+							throw new IOException ("Malformed node data in file "+fileName);
+						}
+						cycData.nodeData.add(loadNode);
+						cycData.nodeData.add(loadNode);
 					}
-					cycData.nodeData.add(loadNode);
-					cycData.nodeData.add(loadNode);
+				} else {
+					throw new IOException ("Malformed line\n"+data+"\nin file "+fileName);
 				}
-			} else {
-				throw new IOException ("Malformed line in file "+fileName);
 			}
 		} finally {
 			readFile.close();
