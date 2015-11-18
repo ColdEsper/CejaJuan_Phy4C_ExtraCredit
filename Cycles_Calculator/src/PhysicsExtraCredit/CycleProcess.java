@@ -18,8 +18,12 @@ public class CycleProcess {
 		end = null;
 	}
 	public void display () {
-		System.out.println("Start: "+start);
-		System.out.println("End: "+end);
+		System.out.println("Start:");
+		start.display();
+		System.out.println();
+		System.out.println("End:");
+		end.display();
+		System.out.println();
 		System.out.println("Heat: "+heatChange);
 		System.out.println("Work: "+workChange);
 		System.out.println("Energy: "+energyChange);

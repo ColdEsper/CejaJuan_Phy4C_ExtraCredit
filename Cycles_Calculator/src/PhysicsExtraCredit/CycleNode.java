@@ -9,6 +9,12 @@ public class CycleNode {
 		volume = Float.NaN;
 		name = "";
 	}
+	public void display () {
+		System.out.println("Node Name: "+name);
+		System.out.println("Pressure: "+pressure);
+		System.out.println("Temperature: "+temperature);
+		System.out.println("Volume: "+volume);
+	}
 	float pressure;
 	float temperature;
 	float volume;

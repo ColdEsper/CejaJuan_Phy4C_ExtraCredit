@@ -19,11 +19,11 @@ class CycleTest {
 	}
 	private static boolean testProcess (CycleProcess proc, String startNodeName, String endNodeName,
 			float heatChange, float workChange, float energyChange, CycleProcess.ProcessType procType) {
-		if (proc.start.name != "A") {
+		if (!proc.start.name.equals("A")) {
 			System.out.println("Process loaded incorrectly for start node");
 			return false;
 		}
-		if (proc.end.name != "B") {
+		if (!proc.end.name.equals("B")) {
 			System.out.println("Process loaded incorrectly for end node");
 			return false;
 		}

@@ -35,12 +35,11 @@ public class Cycle {
 					CycleProcess loadProcess = new CycleProcess();
 					for (int i=0;i<procs.length;++i) {
 						if (procs[i].toLowerCase().trim().startsWith("start=")) {
-							String name = procs[i].toLowerCase().substring(6);
+							String name = procs[i].toUpperCase().substring(7);
 							loadProcess.start= new CycleNode();
 							loadProcess.start.name = name;
 						} else if (procs[i].toLowerCase().trim().startsWith("end=")) {
-							String name = procs[i].toLowerCase().substring(5);
-							loadProcess.start= new CycleNode();
+							String name = procs[i].toUpperCase().substring(5);
 							loadProcess.end= new CycleNode();
 							loadProcess.end.name = name;
 						}
@@ -76,7 +75,7 @@ public class Cycle {
 					for (int i=0;i<props.length;++i) {
 						String nodeProperty = props[i].toLowerCase().trim();
 						if (nodeProperty.startsWith("name=")) {
-							loadNode.name = nodeProperty.substring(6);
+							loadNode.name = nodeProperty.toUpperCase().substring(6);
 						} else if (nodeProperty.startsWith("pressure=")) {
 							String doub = nodeProperty.substring(9);
 							loadNode.pressure=Float.valueOf(doub);
