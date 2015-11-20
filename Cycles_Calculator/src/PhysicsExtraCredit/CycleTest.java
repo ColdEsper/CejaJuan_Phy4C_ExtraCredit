@@ -72,6 +72,16 @@ class CycleTest {
 			cyc.processes.get(3).display();
 			return;
 		}
+		if (!CycleTest.testNode(cyc.nodes.get("A"),"A",35.029f,22.03f,Float.NaN)) {
+			System.out.println("Created Cycle node A initialized incorrectly");
+			cyc.nodes.get("A").display();
+			return;
+		}
+		if (!CycleTest.testNode(cyc.nodes.get("C"),"C",Float.NaN,Float.NaN,200.03f)) {
+			System.out.println("Created Cycle node C initialized incorrectly");
+			cyc.nodes.get("C").display();
+			return;
+		}
 		System.out.println("Load test was Successful!!!");
 	}
 	private static boolean testProcess (CycleProcess proc, String startNodeName, String endNodeName,
