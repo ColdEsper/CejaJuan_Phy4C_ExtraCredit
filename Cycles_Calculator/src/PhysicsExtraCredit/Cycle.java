@@ -110,11 +110,17 @@ public class Cycle {
 			processCopy.heatChange = original.heatChange;
 			processCopy.workChange = original.workChange;
 			processCopy.energyChange = original.energyChange;
+			CycleNode newNode = new CycleNode();
+			newNode.name = original.start.name;
+			processCopy.start = newNode;
 			if (!nodes.containsKey(original.start.name)) {
-				nodes.put(original.start.name,new CycleNode());
+				nodes.put(original.start.name,newNode);
 			}
+			newNode = new CycleNode();
+			newNode.name = original.end.name;
+			processCopy.end = newNode;
 			if (!nodes.containsKey(original.end.name)) {
-				nodes.put(original.end.name,new CycleNode());
+				nodes.put(original.end.name,newNode);
 			}
 			processCopy.type = data.processData.get(i).type;
 			processes.add(processCopy);
@@ -128,7 +134,6 @@ public class Cycle {
 			nodes.get(originalNode.name).pressure = originalNode.pressure;
 			nodes.get(originalNode.name).temperature= originalNode.temperature;
 			nodes.get(originalNode.name).volume= originalNode.volume;
-			nodes.get(originalNode.name).name= originalNode.name;
 		}
 		//TODO calculations to find as much data as possible about the other points
 	}

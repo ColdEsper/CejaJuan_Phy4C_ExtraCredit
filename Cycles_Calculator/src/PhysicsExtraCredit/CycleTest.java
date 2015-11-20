@@ -46,10 +46,44 @@ class CycleTest {
 			data.nodeData.get(1).display();
 			return;
 		}
+		//Test object creation from data
+		Cycle cyc = new Cycle(data);
+		if (!CycleTest.testProcess(cyc.processes.get(0),"A","B",Float.NaN,32.992f,Float.NaN,
+					CycleProcess.ProcessType.ISOTHERMAL)) {
+			System.out.println("Created Cycle process 0 initialized incorrectly");
+			cyc.processes.get(0).display();
+			return;
+		}
+		if (!CycleTest.testProcess(cyc.processes.get(1),"B","C",Float.NaN,Float.NaN,Float.NaN,
+					CycleProcess.ProcessType.ADIABATIC)) {
+			System.out.println("Created Cycle process 1 initialized incorrectly");
+			cyc.processes.get(1).display();
+			return;
+		}
+		if (!CycleTest.testProcess(cyc.processes.get(2),"C","D",80.23f,Float.NaN,999.98f,
+					CycleProcess.ProcessType.ISOTHERMAL)) {
+			System.out.println("Created Cycle process 2 initialized incorrectly");
+			cyc.processes.get(2).display();
+			return;
+		}
+		if (!CycleTest.testProcess(cyc.processes.get(3),"D","A",88.88f,39.7f,Float.NaN,
+					CycleProcess.ProcessType.ADIABATIC)) {
+			System.out.println("Created Cycle process 3 initialized incorrectly");
+			cyc.processes.get(3).display();
+			return;
+		}
 		System.out.println("Load test was Successful!!!");
 	}
 	private static boolean testProcess (CycleProcess proc, String startNodeName, String endNodeName,
 			float heatChange, float workChange, float energyChange, CycleProcess.ProcessType procType) {
+		if (proc.start == null) {
+			System.out.println("Process start node null!!!");
+			return false;
+		}
+		if (proc.end == null) {
+			System.out.println("Process end node null!!!");
+			return false;
+		}
 		if (!proc.start.name.equals(startNodeName)) {
 			System.out.println("Process loaded incorrectly for start node");
 			return false;
