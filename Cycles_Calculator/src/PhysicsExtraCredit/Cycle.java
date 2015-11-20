@@ -13,10 +13,9 @@ public class Cycle {
 	//points of calculating the other values
 	public float moles;
 	public final static float R =  8.314f; //this is the ideal gas law units J/(mol*k)
-	public final static String DATA_DIR = "../data/";
 	public static CycleData loadFile (String fileName) throws IOException {
 		CycleData cycData = new CycleData ();
-		File dataFile = new File(DATA_DIR+fileName);
+		File dataFile = new File(fileName);
 		if (!dataFile.isFile()) {
 			throw new IOException ("File "+fileName+" non-existant!");
 		}

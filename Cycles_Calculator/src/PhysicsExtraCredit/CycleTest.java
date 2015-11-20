@@ -4,7 +4,7 @@ import java.io.IOException;
 
 class CycleTest {
 	public static void main(String args[]) throws IOException {
-		CycleData data = Cycle.loadFile("test.cycle");
+		CycleData data = Cycle.loadFile("../data/test.cycle");
 		if (data.moles != 3.2190908f) {
 			System.out.println("Moles loaded states "+data.moles);
 			System.out.println("Moles should've been 3.2190908");
