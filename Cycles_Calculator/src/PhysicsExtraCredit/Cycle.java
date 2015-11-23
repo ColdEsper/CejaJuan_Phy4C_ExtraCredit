@@ -9,8 +9,6 @@ import java.io.File;
 public class Cycle {
 	Hashtable<String, CycleNode> nodes;
 	ArrayList<CycleProcess> processes;
-	//nodes that have initial values, which will be used for starting 
-	//points of calculating the other values
 	public float moles;
 	public final static float R =  8.314f; //this is the ideal gas law units J/(mol*k)
 	public static CycleData loadFile (String fileName) throws IOException {

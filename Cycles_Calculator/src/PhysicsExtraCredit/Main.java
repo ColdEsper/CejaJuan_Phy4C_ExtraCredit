@@ -109,9 +109,6 @@ public class Main {
 				return;
 			}
 			Cycle cyc = new Cycle(data);
-			/*Graph graph = new Graph("Volume","Pressure",5,5,10,10,10);
-			graph.addLine(15,15,25,25);
-			frame.add(graph);*/
 			for (int i=0;i<cyc.processes.size();++i) {
 				CycleProcess proc = cyc.processes.get(i);
 				JPanel procPanel = new JPanel ();
