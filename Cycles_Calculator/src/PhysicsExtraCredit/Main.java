@@ -18,7 +18,10 @@ public class Main {
 			layoutRules.weighty=1.0;
 			layoutRules.gridwidth = 1;
 			layoutRules.gridheight = 1;
+			layoutRules.gridx = 0;
 			layoutRules.gridy = 0;
+			layoutRules.ipadx=2;
+			layoutRules.ipady=1;
 			JFileChooser chooser = new JFileChooser();
 			int option = chooser.showOpenDialog(frame);
 			CycleData data;
@@ -37,32 +40,43 @@ public class Main {
 				return;
 			}
 			Cycle cyc = new Cycle(data);
+			JPanel procPanel = new JPanel(layout);
 			for (int i=0;i<cyc.processes.size();++i) {
 				CycleProcess proc = cyc.processes.get(i);
-				JPanel procPanel = new JPanel ();
+				layoutRules.ipady=20;
 				switch (proc.type) {
 					case ADIABATIC:
-						procPanel.add(new JLabel("Adiabatic"));
+						procPanel.add(new JLabel("Adiabatic"),layoutRules);
 						break;
 					case ISOTHERMAL:
-						procPanel.add(new JLabel("Isothermal"));
+						procPanel.add(new JLabel("Isothermal"),layoutRules);
 						break;
 					case ISOBARIC:
-						procPanel.add(new JLabel("Isobaric"));
+						procPanel.add(new JLabel("Isobaric"),layoutRules);
 						break;
 					case ISOCHORIC:
-						procPanel.add(new JLabel("Isochoric"));
+						procPanel.add(new JLabel("Isochoric"),layoutRules);
 						break;
 				}
-				procPanel.add(new JLabel("Start: "+proc.start.name));
-				procPanel.add(new JLabel("End: "+proc.end.name));
-				procPanel.add(new JLabel("Heat: "+proc.heatChange));
-				procPanel.add(new JLabel("Work: "+proc.heatChange));
-				procPanel.add(new JLabel("Energy: "+proc.energyChange));
-				layout.setConstraints(procPanel,layoutRules);
-				frame.add(procPanel,layoutRules);
+				layoutRules.ipady=1;
+				layoutRules.gridy+=1;
+				procPanel.add(new JLabel("Start: "+proc.start.name),layoutRules);
+				layoutRules.gridx+=1;
+				procPanel.add(new JLabel("End: "+proc.end.name),layoutRules);
+				layoutRules.gridx=0;
+				layoutRules.gridy+=1;
+				procPanel.add(new JLabel("Heat: "+proc.heatChange),layoutRules);
+				layoutRules.gridx+=1;
+				procPanel.add(new JLabel("Work: "+proc.heatChange),layoutRules);
+				layoutRules.gridx+=1;
+				procPanel.add(new JLabel("Energy: "+proc.energyChange),layoutRules);
+				layoutRules.gridx=0;
 				layoutRules.gridy+=1;
 			}
+			layoutRules.gridx=0;
+			layoutRules.gridy=0;
+			layoutRules.anchor=GridBagConstraints.NORTH;
+			frame.add(procPanel,layoutRules);
 			frame.setSize(640,640);
 			frame.setVisible(true);
 		} else {
