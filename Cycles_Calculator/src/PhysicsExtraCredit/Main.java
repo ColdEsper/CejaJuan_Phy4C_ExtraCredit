@@ -2,6 +2,7 @@ package PhysicsExtraCredit;
 
 import java.util.ArrayList;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 import javax.swing.*;
 
@@ -46,21 +47,38 @@ class ProcessPanel extends Panel{
 	}
 }
 
+class NodePanel extends Panel{
+	public NodePanel (CycleNode node) {
+		setLayout(new GridBagLayout());
+		GridBagConstraints layout = new GridBagConstraints();
+		layout.weightx=1.0;
+		layout.weighty=1.0;
+		layout.gridwidth = 1;
+		layout.gridheight = 1;
+		layout.gridx = 0;
+		layout.gridy = 0;
+		layout.ipadx=2;
+		layout.ipady=20;
+		add(new JLabel("Node: "+node.name),layout);
+		layout.ipady=1;
+		layout.gridy+=1;
+		add(new JLabel("Pressure: "+node.pressure),layout);
+		layout.gridy+=1;
+		add(new JLabel("Volume: "+node.volume),layout);
+		layout.gridy+=1;
+		add(new JLabel("Temperature: "+node.temperature),layout);
+	}
+}
+
 public class Main {
 	Cycle cyc;
 	public static void main(String args[]) throws IOException {
 		if (args.length > 0 && args[0].toLowerCase().equals("gui")) {
 			JFrame frame = new JFrame("Cycle Calculation");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			GridBagLayout gridBag = new GridBagLayout();
-			frame.setLayout(gridBag);
-			GridBagConstraints layout = new GridBagConstraints();
-			layout.weightx=1.0;
-			layout.weighty=1.0;
-			layout.gridwidth = 1;
-			layout.gridheight = 1;
-			layout.gridx = 0;
-			layout.gridy = 0;
+			frame.getContentPane().setPreferredSize(
+					new Dimension(640,640));
+			frame.setLayout(new BorderLayout());
 			JFileChooser chooser = new JFileChooser();
 			int option = chooser.showOpenDialog(frame);
 			CycleData data;
@@ -78,18 +96,32 @@ public class Main {
 				frame.dispose();
 				return;
 			}
+			GridBagLayout gridBag = new GridBagLayout();
+			GridBagConstraints layout = new GridBagConstraints();
+			layout.weightx=1.0;
+			layout.weighty=1.0;
+			layout.gridwidth = 1;
+			layout.gridheight = 1;
+			layout.gridx = 0;
+			layout.gridy = 0;
+			layout.ipadx = 10;
 			Cycle cyc = new Cycle(data);
-			JPanel procsPanel = new JPanel(gridBag);
+			JPanel dataPanel = new JPanel(gridBag);
 			for (int i=0;i<cyc.processes.size();++i) {
 				CycleProcess proc = cyc.processes.get(i);
-				procsPanel.add(new ProcessPanel(proc),layout);
+				dataPanel.add(new ProcessPanel(proc),layout);
 				layout.gridy+=1;
 			}
-			layout.gridx=0;
 			layout.gridy=0;
-			layout.anchor=GridBagConstraints.NORTH;
-			frame.add(procsPanel,layout);
-			frame.setSize(640,640);
+			layout.gridx+=1;
+			for (String key: cyc.nodes.keySet()) {
+				CycleNode node = cyc.nodes.get(key);
+				dataPanel.add(new NodePanel(node),layout);
+				layout.gridy+=1;
+			}
+			JScrollPane scrollPane = new JScrollPane(dataPanel);
+			frame.add(scrollPane);
+			frame.pack();
 			frame.setVisible(true);
 		} else {
 			Cycles_2nd_Law.commandLineMain(args);
