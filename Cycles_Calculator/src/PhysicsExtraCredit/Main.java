@@ -114,13 +114,25 @@ public class Main {
 				return;
 			}
 			JPanel dataPanel = new JPanel(gridBag);
+			layout.gridx=0;
+			dataPanel.add(new JLabel("moles: "+cyc.moles),layout);
+			layout.gridx+=1;
+			dataPanel.add(new JLabel("gamma: "+cyc.heatCapacityRatio),layout);
+			layout.gridx=0;
+			layout.gridy+=1;
+			dataPanel.add(new JLabel("Cv: "+cyc.heatCapacityV),layout);
+			layout.gridx+=1;
+			dataPanel.add(new JLabel("Cp: "+cyc.heatCapacityP),layout);
+			layout.gridy+=1;
+			int gridStarty = layout.gridy;
+			layout.gridx=0;
 			for (int i=0;i<cyc.processes.size();++i) {
 				CycleProcess proc = cyc.processes.get(i);
 				dataPanel.add(new ProcessPanel(proc),layout);
 				layout.gridy+=1;
 			}
-			layout.gridy=0;
-			layout.gridx+=1;
+			layout.gridy=gridStarty;
+			layout.gridx=2;
 			for (String key: cyc.nodes.keySet()) {
 				CycleNode node = cyc.nodes.get(key);
 				dataPanel.add(new NodePanel(node),layout);
