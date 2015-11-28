@@ -4,10 +4,16 @@ import java.io.IOException;
 
 class CycleTest {
 	public static void main(String args[]) throws PhysicsException, IOException {
+		System.out.println("loading test data");
 		CycleData data = Cycle.loadFile("../data/test.cycle");
 		if (data.moles != 3.2190908f) {
 			System.out.println("Moles loaded states "+data.moles);
 			System.out.println("Moles should've been 3.2190908");
+			return;
+		}
+		if (data.heatCapacityRatio != 1.6f) {
+			System.out.println("Heat capacity ratio loaded states "+data.heatCapacityRatio);
+			System.out.println("Heat capacity ratio should've been 1.6");
 			return;
 		}
 		//test processes
@@ -46,8 +52,41 @@ class CycleTest {
 			data.nodeData.get(1).display();
 			return;
 		}
+		System.out.println("loading test2 data");
+		CycleData dataTwo = Cycle.loadFile("../data/test2.cycle");
+		if (dataTwo.moles != 3.2190908f) {
+			System.out.println("Moles loaded states "+dataTwo.moles);
+			System.out.println("Moles should've been 3.2190908");
+			return;
+		}
+		if (dataTwo.heatCapacityRatio!= 1.6f) {
+			System.out.println("gamma loaded states "+dataTwo.heatCapacityRatio);
+			System.out.println("gamma should've been 1.6");
+			return;
+		}
+		if (dataTwo.heatCapacityV != 100.5f) {
+			System.out.println("Cv loaded states "+dataTwo.heatCapacityV);
+			System.out.println("Cv should've been 100.5");
+			return;
+		}
+		if (dataTwo.heatCapacityP != 900.7f) {
+			System.out.println("Cp loaded states "+dataTwo.heatCapacityP);
+			System.out.println("Cp should've been 900.7");
+			return;
+		}
 		//Test object creation from data
+		System.out.println("testing object creation");
 		Cycle cyc = new Cycle(data);
+		boolean generateException = false;
+		Cycle error;
+		/*try {
+			Cycle error = new Cycle(dataTwo);
+			System.out.println("Didn't create PhysicsException for incorrect cv, cp, gamma relationship");
+			System.out.println("moles: "+error.moles);
+			System.out.println("cv: "+error.heatCapacityV);
+			System.out.println("cp: "+error.heatCapacityP);
+		} catch (PhysicsException e) {
+		}*/
 		if (!CycleTest.testProcess(cyc.processes.get(0),"A","B",Float.NaN,32.992f,Float.NaN,
 					CycleProcess.ProcessType.ISOTHERMAL)) {
 			System.out.println("Created Cycle process 0 initialized incorrectly");

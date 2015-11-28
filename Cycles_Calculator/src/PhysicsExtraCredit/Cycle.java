@@ -11,6 +11,9 @@ public class Cycle {
 	Hashtable<String, ArrayList<Integer> > nodeConnections;
 	ArrayList<CycleProcess> processes;
 	public float moles;
+	public float heatCapacityRatio;
+	public float heatCapacityV;
+	public float heatCapacityP;
 	public final static float R =  8.314f; //this is the ideal gas law units J/(mol*k)
 	public static CycleData loadFile (String fileName) throws IOException {
 		CycleData cycData = new CycleData ();
@@ -25,8 +28,16 @@ public class Cycle {
 				if (data.toLowerCase().trim().startsWith("moles:")) {
 					String mol = data.toLowerCase().trim().substring(6);
 					cycData.moles = Float.valueOf(mol);
-				}
-				else if (data.toLowerCase().trim().startsWith("process:")) {
+				} else if (data.toLowerCase().trim().startsWith("gamma:")) {
+					String gam = data.toLowerCase().trim().substring(6);
+					cycData.heatCapacityRatio= Float.valueOf(gam);
+				} else if (data.toLowerCase().trim().startsWith("cp:")) {
+					String heatP = data.toLowerCase().trim().substring(3);
+					cycData.heatCapacityP= Float.valueOf(heatP);
+				} else if (data.toLowerCase().trim().startsWith("cv:")) {
+					String heatV = data.toLowerCase().trim().substring(3);
+					cycData.heatCapacityV= Float.valueOf(heatV);
+				} else if (data.toLowerCase().trim().startsWith("process:")) {
 					String procData = data.toLowerCase().substring(8);
 					String[] procs = procData.split(",");
 					assert(procs.length>=3);
@@ -178,6 +189,18 @@ public class Cycle {
 		nodes = new Hashtable<String,CycleNode>();
 		nodeConnections = new Hashtable<String,ArrayList<Integer>>();
 		processes = new ArrayList<CycleProcess>();
+		if (!Float.isNaN(data.moles)) {
+			moles = data.moles;
+		}
+		if (!Float.isNaN(data.heatCapacityRatio)) {
+			heatCapacityRatio = data.heatCapacityRatio;
+		}
+		if (!Float.isNaN(data.heatCapacityV)) {
+			heatCapacityV = data.heatCapacityV;
+		}
+		if (!Float.isNaN(data.heatCapacityP)) {
+			heatCapacityP = data.heatCapacityP;
+		}
 		/* deep copy */
 		for (int i=0;i<data.processData.size();++i) {
 			CycleProcess original = data.processData.get(i);

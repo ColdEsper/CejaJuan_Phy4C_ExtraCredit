@@ -1,4 +1,5 @@
 moles: 3.2190908
+gamma: 1.6
 process: work=32.992, type=isothermal, start=A, end=B
 process: type=adiabatic, end=C, start=b
 process: type=isothermal, start=C, end=d, heat=80.23, energy=999.98
