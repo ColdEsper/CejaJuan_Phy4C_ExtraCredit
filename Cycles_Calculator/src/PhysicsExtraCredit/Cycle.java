@@ -97,6 +97,15 @@ public class Cycle {
 		}
 		return cycData;
 	}
+	//throws an error if inputted values generate conflicting values
+	//through the usage of thermodynamics equations
+	public void calculateCycle () throws PhysicsException {
+		//TODO
+	}
+	public Cycle () {
+		nodes = new Hashtable<String,CycleNode>();
+		processes = new ArrayList<CycleProcess>();
+	}
 	public Cycle (CycleData data) {
 		nodes = new Hashtable<String,CycleNode>();
 		processes = new ArrayList<CycleProcess>();
@@ -132,7 +141,9 @@ public class Cycle {
 			nodes.get(originalNode.name).temperature= originalNode.temperature;
 			nodes.get(originalNode.name).volume= originalNode.volume;
 		}
-		//TODO calculations to find as much data as possible about the other points
+		try {
+			calculateCycle();
+		}
 	}
 	public static float energy (float deltaWork,float deltaHeat) {
 		return (deltaHeat-deltaWork);
