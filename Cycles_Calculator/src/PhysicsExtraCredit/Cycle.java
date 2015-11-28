@@ -149,7 +149,10 @@ public class Cycle {
 	//through the usage of thermodynamics equations
 	public void calculateCycle () throws PhysicsException {
 		ArrayList<Integer> nextProcesses= new ArrayList<Integer>();
-		nextProcesses.add(0);
+		//initialize nextProcess list with all edges so all edges get verified
+		for (int i=0;i<processes.size();++i) {
+			nextProcesses.add(i);
+		}
 		while (!nextProcesses.isEmpty()) {
 			CycleProcess proc = processes.get(nextProcesses.get(0));
 			nextProcesses.remove(0);
