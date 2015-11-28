@@ -3,7 +3,7 @@ package PhysicsExtraCredit;
 import java.io.IOException;
 
 class CycleTest {
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws PhysicsException, IOException {
 		CycleData data = Cycle.loadFile("../data/test.cycle");
 		if (data.moles != 3.2190908f) {
 			System.out.println("Moles loaded states "+data.moles);

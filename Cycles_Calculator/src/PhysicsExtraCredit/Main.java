@@ -105,7 +105,14 @@ public class Main {
 			layout.gridx = 0;
 			layout.gridy = 0;
 			layout.ipadx = 10;
-			Cycle cyc = new Cycle(data);
+			Cycle cyc;
+			try {
+				cyc = new Cycle(data);
+			} catch (PhysicsException e) {
+				JOptionPane.showMessageDialog(null,e.getMessage());
+				frame.dispose();
+				return;
+			}
 			JPanel dataPanel = new JPanel(gridBag);
 			for (int i=0;i<cyc.processes.size();++i) {
 				CycleProcess proc = cyc.processes.get(i);

@@ -8,6 +8,7 @@ import java.io.File;
 
 public class Cycle {
 	Hashtable<String, CycleNode> nodes;
+	Hashtable<String, ArrayList<Integer> > nodeConnections;
 	ArrayList<CycleProcess> processes;
 	public float moles;
 	public final static float R =  8.314f; //this is the ideal gas law units J/(mol*k)
@@ -97,17 +98,85 @@ public class Cycle {
 		}
 		return cycData;
 	}
+	public void updateNode (CycleNode node,ArrayList<Integer> nextProcesses) throws PhysicsException {
+		boolean updated = false;
+		if (!Float.isNaN(node.pressure)) {
+			if (!Float.isNaN(node.volume)) {
+				if (!Float.isNaN(node.temperature)) {
+					if(!Float.isNaN(moles)) {
+						if (moles != calcMoles(node.pressure,node.volume,node.temperature)) {
+							throw new PhysicsException("Ideal gas law violated!");
+						}
+					} else {
+						moles = calcMoles(node.pressure,node.volume,node.temperature);
+						for (String nodeName: nodes.keySet()) {
+							if (node!=nodes.get(nodeName)) {
+								updateNode(nodes.get(nodeName),nextProcesses);
+							}
+						}
+					}
+				}
+			}
+		}
+		if (updated) {
+			for (int i=0;i<nodeConnections.get(node.name).size();++i) {
+				int nextProc = nodeConnections.get(node.name).get(i);
+				boolean alreadyNext = false;
+				for (int j=0;j<nextProcesses.size();++j) {
+					if (nextProcesses.get(i)==nextProc) {
+						alreadyNext=true;
+						break;
+					}
+				}
+				if (!alreadyNext) {
+					nextProcesses.add(nextProc);
+				}
+			}
+		}
+	}
 	//throws an error if inputted values generate conflicting values
 	//through the usage of thermodynamics equations
 	public void calculateCycle () throws PhysicsException {
-		//TODO
+		ArrayList<Integer> nextProcesses= new ArrayList<Integer>();
+		nextProcesses.add(0);
+		while (!nextProcesses.isEmpty()) {
+			CycleProcess proc = processes.get(nextProcesses.get(0));
+			nextProcesses.remove(0);
+			boolean processUpdate = false;
+			//calculate remaining part of first law of thermodynamics if there's two knowns
+			if (!Float.isNaN(proc.heatChange)) {
+				if (!Float.isNaN(proc.workChange)) {
+					if (!Float.isNaN(proc.energyChange)) {
+						if (heat(proc.energyChange, proc.workChange) != proc.heatChange 
+						|| work(proc.energyChange,proc.heatChange) != proc.workChange 
+						|| energy(proc.workChange,proc.heatChange) != proc.energyChange) {
+							throw new PhysicsException("First law of thermodynamics violated! in process "
+									+ "connecting "+proc.start.name+" to "+proc.end.name);
+						}
+					} else {
+						proc.energyChange = energy(proc.workChange,proc.heatChange);
+						processUpdate = true;
+					}
+				} else if (!Float.isNaN(proc.energyChange)) {
+					proc.workChange = work(proc.energyChange,proc.heatChange);
+					processUpdate= true;
+				}
+			} else if (!Float.isNaN(proc.workChange)) {
+				if (!Float.isNaN(proc.energyChange)) {
+					proc.heatChange = heat(proc.energyChange,proc.workChange);
+					processUpdate= true;
+				}
+			}
+			if (processUpdate) {
+				//update nodes of process,
+				updateNode(nodes.get(proc.start),nextProcesses); 
+				updateNode(nodes.get(proc.end),nextProcesses); 
+			}
+		}
 	}
-	public Cycle () {
+	public Cycle (CycleData data) throws PhysicsException {
 		nodes = new Hashtable<String,CycleNode>();
-		processes = new ArrayList<CycleProcess>();
-	}
-	public Cycle (CycleData data) {
-		nodes = new Hashtable<String,CycleNode>();
+		nodeConnections = new Hashtable<String,ArrayList<Integer>>();
 		processes = new ArrayList<CycleProcess>();
 		/* deep copy */
 		for (int i=0;i<data.processData.size();++i) {
@@ -121,13 +190,17 @@ public class Cycle {
 			processCopy.start = newNode;
 			if (!nodes.containsKey(original.start.name)) {
 				nodes.put(original.start.name,newNode);
+				nodeConnections.put(original.start.name,new ArrayList<Integer>());
 			}
+			nodeConnections.get(original.start.name).add(i);
 			newNode = new CycleNode();
 			newNode.name = original.end.name;
 			processCopy.end = newNode;
 			if (!nodes.containsKey(original.end.name)) {
 				nodes.put(original.end.name,newNode);
+				nodeConnections.put(original.end.name,new ArrayList<Integer>());
 			}
+			nodeConnections.get(original.end.name).add(i);
 			processCopy.type = data.processData.get(i).type;
 			processes.add(processCopy);
 		}
@@ -141,9 +214,8 @@ public class Cycle {
 			nodes.get(originalNode.name).temperature= originalNode.temperature;
 			nodes.get(originalNode.name).volume= originalNode.volume;
 		}
-		try {
-			calculateCycle();
-		}
+		//TODO uncomment when calculateCycle is complete
+		//calculateCycle();
 	}
 	public static float energy (float deltaWork,float deltaHeat) {
 		return (deltaHeat-deltaWork);
@@ -161,4 +233,7 @@ public class Cycle {
 		return (pressure*(endVolume-startVolume));
 	}
 	public static final float ISOCHORIC_WORK = 0.0f;
+	public static float calcMoles (float pressure, float volume, float temperature) {
+		return (pressure*volume)/(temperature*R);
+	}
 }
