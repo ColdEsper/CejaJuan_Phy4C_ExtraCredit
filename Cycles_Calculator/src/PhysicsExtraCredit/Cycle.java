@@ -153,6 +153,10 @@ public class Cycle {
 		for (int i=0;i<processes.size();++i) {
 			nextProcesses.add(i);
 		}
+		//calculate values from initial values for nodes first
+		for (String nodeName: nodes.keySet()) {
+			updateNode(nodes.get(nodeName),nextProcesses);
+		}
 		while (!nextProcesses.isEmpty()) {
 			CycleProcess proc = processes.get(nextProcesses.get(0));
 			nextProcesses.remove(0);
@@ -180,6 +184,19 @@ public class Cycle {
 					proc.heatChange = heat(proc.energyChange,proc.workChange);
 					processUpdate= true;
 				}
+			}
+			switch (proc.type) {
+				case ADIABATIC:
+					if (Adiabatic.update(proc,this)) {
+						processUpdate = true;
+					}
+					break;
+				case ISOTHERMAL:
+					break;
+				case ISOBARIC:
+					break;
+				case ISOCHORIC:
+					break;
 			}
 			if (processUpdate) {
 				//update nodes of process,
