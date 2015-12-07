@@ -65,5 +65,9 @@ public class IsoThermal
 		 return U;
 	}
     
-    }
+	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
+		boolean processUpdated = false;
+		return processUpdated;
+	}
 
+    }

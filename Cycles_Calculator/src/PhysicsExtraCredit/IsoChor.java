@@ -63,4 +63,8 @@ public class IsoChor
 		 return temp2;
 	}
 
+	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
+		boolean processUpdated = false;
+		return processUpdated;
+	}
 }

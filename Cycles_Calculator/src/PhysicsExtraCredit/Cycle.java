@@ -251,10 +251,19 @@ public class Cycle {
 					}
 					break;
 				case ISOTHERMAL:
+					if (IsoThermal.update(proc,this)) {
+						processUpdate = true;
+					}
 					break;
 				case ISOBARIC:
+					if (IsoBar.update(proc,this)) {
+						processUpdate = true;
+					}
 					break;
 				case ISOCHORIC:
+					if (IsoChor.update(proc,this)) {
+						processUpdate = true;
+					}
 					break;
 			}
 			if (processUpdate) {

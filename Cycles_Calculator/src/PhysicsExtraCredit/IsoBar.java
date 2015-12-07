@@ -33,4 +33,8 @@ public class IsoBar
 		 return Q;
 	}
 
+	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
+		boolean processUpdated = false;
+		return processUpdated;
+	}
 }
