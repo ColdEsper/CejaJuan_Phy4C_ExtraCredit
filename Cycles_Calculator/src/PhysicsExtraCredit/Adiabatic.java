@@ -78,6 +78,36 @@ public class Adiabatic
 		 
 		 return Pfinal;
 	}
+	public static boolean pvCalculation (CycleNode nodeOne, CycleNode nodeTwo, Cycle cycle) throws PhysicsException {
+		boolean processUpdated = false;
+		if (!Float.isNaN(nodeOne.pressure) && !Float.isNaN(nodeOne.volume) && !Float.isNaN(cycle.heatCapacityRatio)) {
+			if (!Float.isNaN(nodeTwo.pressure)) {
+				if (Float.isNaN(nodeTwo.volume)) {
+					nodeTwo.volume = nodeOne.volume*(float)Math.pow(
+						nodeOne.pressure/nodeTwo.pressure,
+						1/(cycle.heatCapacityRatio-1));
+					processUpdated = true;
+				} else {
+					if (nodeTwo.volume != nodeOne.volume*(float)Math.pow(
+						nodeOne.pressure/nodeTwo.pressure,
+						1/(cycle.heatCapacityRatio-1))) {
+						throw new PhysicsException("Adiabatic pv^(gamma-1) failed to be a constant!");
+					}
+				}
+			} else if (!Float.isNaN(nodeTwo.volume)) {
+				nodeTwo.pressure = nodeOne.pressure*(float)Math.pow(
+						nodeOne.volume/nodeTwo.volume,
+						cycle.heatCapacityRatio-1);
+				processUpdated = true;
+			}
+		} /*else if (!Float.isNaN(nodeOne.pressure) && !Float.isNaN(nodeOne.volume) && 
+		!Float.isNaN(nodeTwo.pressure) && !Float.isNaN(nodeTwo.volume)) {
+			cycle.heatCapacityRatio = (float)(Math.log(nodeTwo.pressure/nodeOne.pressure)
+				/Math.log(nodeOne.volume/nodeTwo.volume)+1.0);
+			processUpdated = true;
+		}*/
+		return processUpdated;
+	}
 	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
 		boolean processUpdated = false;
 		//heat calculations
@@ -130,6 +160,13 @@ public class Adiabatic
 			process.end.temperature, cycle.heatCapacityV, cycle.moles)) {
 				throw new PhysicsException("Adiabatic work didn't match by temperature calculation!");
 			}
+		}
+		//pV^(gamma-1) calculations
+		if (pvCalculation(process.start,process.end,cycle)) {
+			processUpdated=true;
+		}
+		if (pvCalculation(process.end,process.start,cycle)) {
+			processUpdated=true;
 		}
 		return processUpdated;
 	}

@@ -67,6 +67,33 @@ public class IsoThermal
     
 	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
 		boolean processUpdated = false;
+		//calculate temperature
+		if (!Float.isNaN(process.start.temperature)) {
+			if (!Float.isNaN(process.end.temperature)) {
+				if (process.start.temperature != process.end.temperature) {
+					throw new PhysicsException("Isothermal start and end temperature not equal");
+				}
+			}
+			else {
+				process.end.temperature = process.start.temperature;
+			}
+		} else if (!Float.isNaN(process.end.temperature)) {
+			process.start.temperature = process.end.temperature;
+		}
+		//calculate work
+		if (Float.isNaN(process.workChange)) {
+			if (!Float.isNaN(cycle.moles) && !Float.isNaN(process.start.volume) 
+			&& !Float.isNaN(process.end.volume) && !Float.isNaN(process.start.temperature)) {
+				process.workChange = isothermCalculationsWork(cycle.moles,process.start.volume,
+					process.end.volume,process.start.temperature);
+			}
+		} else if (!Float.isNaN(cycle.moles) && !Float.isNaN(process.start.volume) 
+		&& !Float.isNaN(process.end.volume) && !Float.isNaN(process.start.temperature)) {
+			if (process.workChange != isothermCalculationsWork(cycle.moles,process.start.volume,
+				process.end.volume,process.start.temperature)) {
+				throw new PhysicsException("Isothermal work does not match node values");
+			}
+		}
 		return processUpdated;
 	}
 

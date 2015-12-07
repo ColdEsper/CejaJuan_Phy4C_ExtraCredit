@@ -217,7 +217,8 @@ public class Cycle {
 			updateNode(nodes.get(nodeName),nextProcesses);
 		}
 		while (!nextProcesses.isEmpty()) {
-			CycleProcess proc = processes.get(nextProcesses.get(0));
+			int nextProcIndex = nextProcesses.get(0);
+			CycleProcess proc = processes.get(nextProcIndex);
 			nextProcesses.remove(0);
 			boolean processUpdate = false;
 			//calculate remaining part of first law of thermodynamics if there's two knowns
@@ -270,6 +271,7 @@ public class Cycle {
 				//update nodes of process,
 				updateNode(proc.start,nextProcesses); 
 				updateNode(proc.end,nextProcesses); 
+				nextProcesses.add(nextProcIndex);
 			}
 		}
 	}
@@ -304,20 +306,24 @@ public class Cycle {
 			processCopy.heatChange = original.heatChange;
 			processCopy.workChange = original.workChange;
 			processCopy.energyChange = original.energyChange;
-			CycleNode newNode = new CycleNode();
-			newNode.name = original.start.name;
-			processCopy.start = newNode;
 			if (!nodes.containsKey(original.start.name)) {
+				CycleNode newNode = new CycleNode();
+				newNode.name = original.start.name;
+				processCopy.start = newNode;
 				nodes.put(original.start.name,newNode);
 				nodeConnections.put(original.start.name,new ArrayList<Integer>());
+			} else {
+				processCopy.start = nodes.get(original.start.name);
 			}
 			nodeConnections.get(original.start.name).add(i);
-			newNode = new CycleNode();
-			newNode.name = original.end.name;
-			processCopy.end = newNode;
 			if (!nodes.containsKey(original.end.name)) {
+				CycleNode newNode = new CycleNode();
+				newNode.name = original.end.name;
+				processCopy.end = newNode;
 				nodes.put(original.end.name,newNode);
 				nodeConnections.put(original.end.name,new ArrayList<Integer>());
+			} else {
+				processCopy.end = nodes.get(original.end.name);
 			}
 			nodeConnections.get(original.end.name).add(i);
 			processCopy.type = data.processData.get(i).type;
