@@ -111,20 +111,59 @@ public class Cycle {
 	}
 	public void updateNode (CycleNode node,ArrayList<Integer> nextProcesses) throws PhysicsException {
 		boolean updated = false;
-		if (!Float.isNaN(node.pressure)) {
-			if (!Float.isNaN(node.volume)) {
-				if (!Float.isNaN(node.temperature)) {
-					if(!Float.isNaN(moles)) {
-						if (moles != calcMoles(node.pressure,node.volume,node.temperature)) {
-							throw new PhysicsException("Ideal gas law violated!");
-						}
-					} else {
-						moles = calcMoles(node.pressure,node.volume,node.temperature);
-						for (String nodeName: nodes.keySet()) {
-							if (node!=nodes.get(nodeName)) {
-								updateNode(nodes.get(nodeName),nextProcesses);
-							}
-						}
+		//calculate pressure
+		if (!Float.isNaN(moles) && !Float.isNaN(node.volume) && !Float.isNaN(node.temperature)) {
+			if(!Float.isNaN(node.pressure)) {
+				if (node.pressure != (moles*R*node.temperature)/node.volume) {
+					throw new PhysicsException("Ideal gas law violated!");
+				}
+			} else {
+				node.pressure = (moles*R*node.temperature)/node.volume;
+				for (String nodeName: nodes.keySet()) {
+					if (node!=nodes.get(nodeName)) {
+						updateNode(nodes.get(nodeName),nextProcesses);
+					}
+				}
+			}
+		//calculate volume
+		} else if (!Float.isNaN(node.pressure) && !Float.isNaN(moles) && !Float.isNaN(node.temperature)) {
+			if(!Float.isNaN(node.volume)) {
+				if (node.volume!= (moles*R*node.temperature)/node.pressure) {
+					throw new PhysicsException("Ideal gas law violated!");
+				}
+			} else {
+				node.volume = (moles*R*node.temperature)/node.pressure;
+				for (String nodeName: nodes.keySet()) {
+					if (node!=nodes.get(nodeName)) {
+						updateNode(nodes.get(nodeName),nextProcesses);
+					}
+				}
+			}
+		//calculate moles
+		} else if (!Float.isNaN(node.pressure) && !Float.isNaN(node.volume) && !Float.isNaN(node.temperature)) {
+			if(!Float.isNaN(moles)) {
+				if (moles != calcMoles(node.pressure,node.volume,node.temperature)) {
+					throw new PhysicsException("Ideal gas law violated!");
+				}
+			} else {
+				moles = calcMoles(node.pressure,node.volume,node.temperature);
+				for (String nodeName: nodes.keySet()) {
+					if (node!=nodes.get(nodeName)) {
+						updateNode(nodes.get(nodeName),nextProcesses);
+					}
+				}
+			}
+		//calculate temperature
+		} else if (!Float.isNaN(node.pressure) && !Float.isNaN(node.volume) && !Float.isNaN(moles)) {
+			if(!Float.isNaN(node.temperature)) {
+				if (node.temperature != (node.pressure*node.volume)/(moles*R)) {
+					throw new PhysicsException("Ideal gas law violated!");
+				}
+			} else {
+				node.temperature = (node.pressure*node.volume)/(moles*R);
+				for (String nodeName: nodes.keySet()) {
+					if (node!=nodes.get(nodeName)) {
+						updateNode(nodes.get(nodeName),nextProcesses);
 					}
 				}
 			}
@@ -152,6 +191,27 @@ public class Cycle {
 		//initialize nextProcess list with all edges so all edges get verified
 		for (int i=0;i<processes.size();++i) {
 			nextProcesses.add(i);
+		}
+		//Calculate all heat capacities from any single one of them
+		if (!Float.isNaN(heatCapacityV)) {
+			if (Float.isNaN(heatCapacityP)) {
+				heatCapacityP = heatCapacityV + R;
+			}
+			if (Float.isNaN(heatCapacityRatio)) {
+				heatCapacityRatio = heatCapacityP/heatCapacityV;
+			} else if (heatCapacityRatio != heatCapacityP/heatCapacityV) {
+				throw new PhysicsException("gamma didn't match Cp/Cv");
+			}
+		} else if (!Float.isNaN(heatCapacityP)) {
+			heatCapacityV = heatCapacityP - R;
+			if (Float.isNaN(heatCapacityRatio)) {
+				heatCapacityRatio = heatCapacityP/heatCapacityV;
+			} else if (heatCapacityRatio != heatCapacityP/heatCapacityV) {
+				throw new PhysicsException("gamma didn't match Cp/Cv");
+			}
+		} else if (!Float.isNaN(heatCapacityRatio)) {
+			heatCapacityV = R/(heatCapacityRatio-1);
+			heatCapacityP = heatCapacityV + R;
 		}
 		//calculate values from initial values for nodes first
 		for (String nodeName: nodes.keySet()) {

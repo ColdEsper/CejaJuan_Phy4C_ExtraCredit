@@ -80,12 +80,14 @@ public class Adiabatic
 	}
 	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
 		boolean processUpdated = false;
+		//heat calculations
 		if (Float.isNaN(process.heatChange)) {
 			process.heatChange = 0;
 			processUpdated = true;
 		} else if (process.heatChange != 0) {
 			throw new PhysicsException ("Adiaabatic process had head added!");
 		}
+		//Work calculations
 		if (!Float.isNaN(process.start.pressure) && !Float.isNaN(process.end.pressure)
 		&& !Float.isNaN(process.start.volume) && !Float.isNaN(process.end.volume)) {
 			if (Float.isNaN(process.workChange)) {
@@ -99,7 +101,7 @@ public class Adiabatic
 							process.start.pressure, process.end.volume,
 							process.end.pressure, cycle.heatCapacityV);
 						if (work != process.workChange) {
-							throw new PhysicsException("Adiabatic work didn't match for cv calculation!");
+							throw new PhysicsException("Adiabatic work didn't match by Cv calculation!");
 						}
 					}
 				} else if (!Float.isNaN(cycle.heatCapacityV)) {
@@ -114,9 +116,19 @@ public class Adiabatic
 							process.start.pressure, process.end.volume,
 							process.end.pressure, cycle.heatCapacityRatio);
 					if (process.workChange != work) {
-						throw new PhysicsException("Adiabatic work didn't match for gamma calulation!");
+						throw new PhysicsException("Adiabatic work didn't match by gamma calulation!");
 					}
 				}
+			}
+		} else if (!Float.isNaN(process.start.temperature) && !Float.isNaN(process.end.temperature) 
+		&& !Float.isNaN(cycle.moles) && !Float.isNaN(cycle.heatCapacityV)) {
+			if (Float.isNaN(process.workChange)) {
+				process.workChange = temperatureWork(process.start.temperature,
+						process.end.temperature, cycle.heatCapacityV, cycle.moles);
+				processUpdated = true;
+			} else if (process.workChange != temperatureWork(process.start.temperature, 
+			process.end.temperature, cycle.heatCapacityV, cycle.moles)) {
+				throw new PhysicsException("Adiabatic work didn't match by temperature calculation!");
 			}
 		}
 		return processUpdated;
