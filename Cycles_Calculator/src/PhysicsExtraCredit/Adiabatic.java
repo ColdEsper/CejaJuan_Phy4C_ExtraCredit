@@ -84,8 +84,8 @@ public class Adiabatic
 		if (Float.isNaN(process.heatChange)) {
 			process.heatChange = 0;
 			processUpdated = true;
-		} else if (process.heatChange != 0) {
-			throw new PhysicsException ("Adiaabatic process had head added!");
+		} else if (process.heatChange != 0.0f) {
+			throw new PhysicsException ("Adiaabatic process had heat added!");
 		}
 		//Work calculations
 		if (!Float.isNaN(process.start.pressure) && !Float.isNaN(process.end.pressure)

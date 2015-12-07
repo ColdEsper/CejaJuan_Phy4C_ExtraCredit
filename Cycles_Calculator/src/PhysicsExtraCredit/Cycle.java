@@ -40,7 +40,6 @@ public class Cycle {
 				} else if (data.toLowerCase().trim().startsWith("process:")) {
 					String procData = data.toLowerCase().substring(8);
 					String[] procs = procData.split(",");
-					assert(procs.length>=3);
 					CycleProcess loadProcess = new CycleProcess();
 					for (int i=0;i<procs.length;++i) {
 						String procProp = procs[i].toLowerCase().trim();
@@ -48,7 +47,7 @@ public class Cycle {
 							String name = procProp.toUpperCase().substring(6);
 							loadProcess.start= new CycleNode();
 							loadProcess.start.name = name;
-						} else if (procs[i].toLowerCase().trim().startsWith("end=")) {
+						} else if (procProp.startsWith("end=")) {
 							String name = procProp.toUpperCase().substring(4);
 							loadProcess.end= new CycleNode();
 							loadProcess.end.name = name;
@@ -94,7 +93,7 @@ public class Cycle {
 							loadNode.temperature=Float.valueOf(doub);
 						} else if (nodeProperty.startsWith("volume=")) {
 							String doub = nodeProperty.substring(7);
-							loadNode.temperature=Float.valueOf(doub);
+							loadNode.volume=Float.valueOf(doub);
 						} else {
 							throw new IOException ("Malformed node data in file "+fileName);
 						}
@@ -260,8 +259,8 @@ public class Cycle {
 			}
 			if (processUpdate) {
 				//update nodes of process,
-				updateNode(nodes.get(proc.start),nextProcesses); 
-				updateNode(nodes.get(proc.end),nextProcesses); 
+				updateNode(proc.start,nextProcesses); 
+				updateNode(proc.end,nextProcesses); 
 			}
 		}
 	}
@@ -271,15 +270,23 @@ public class Cycle {
 		processes = new ArrayList<CycleProcess>();
 		if (!Float.isNaN(data.moles)) {
 			moles = data.moles;
+		} else {
+			moles = Float.NaN;
 		}
 		if (!Float.isNaN(data.heatCapacityRatio)) {
 			heatCapacityRatio = data.heatCapacityRatio;
+		} else {
+			heatCapacityRatio = Float.NaN;
 		}
 		if (!Float.isNaN(data.heatCapacityV)) {
 			heatCapacityV = data.heatCapacityV;
+		} else {
+			heatCapacityV = Float.NaN;
 		}
 		if (!Float.isNaN(data.heatCapacityP)) {
 			heatCapacityP = data.heatCapacityP;
+		} else {
+			heatCapacityP = Float.NaN;
 		}
 		/* deep copy */
 		for (int i=0;i<data.processData.size();++i) {
@@ -317,8 +324,7 @@ public class Cycle {
 			nodes.get(originalNode.name).temperature= originalNode.temperature;
 			nodes.get(originalNode.name).volume= originalNode.volume;
 		}
-		//TODO uncomment when calculateCycle is complete
-		//calculateCycle();
+		calculateCycle();
 	}
 	public static float energy (float deltaWork,float deltaHeat) {
 		return (deltaHeat-deltaWork);

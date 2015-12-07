@@ -41,7 +41,7 @@ class ProcessPanel extends Panel{
 		layout.gridy+=1;
 		add(new JLabel("Heat: "+process.heatChange),layout);
 		layout.gridx+=1;
-		add(new JLabel("Work: "+process.heatChange),layout);
+		add(new JLabel("Work: "+process.workChange),layout);
 		layout.gridx+=1;
 		add(new JLabel("Energy: "+process.energyChange),layout);
 	}
