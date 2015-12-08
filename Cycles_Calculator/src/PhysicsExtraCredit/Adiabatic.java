@@ -78,19 +78,31 @@ public class Adiabatic
 		 
 		 return Pfinal;
 	}
+	//For things like pv^gamma=constant and  Tv^(gamma-1)=constant
+	public static float newtonCalculation (double constant, double other, double power) {
+		double guess = constant/(power*other);
+		double prev = -1.0;
+		double prevTwo = -1.0;
+		while (guess != prev && guess != prevTwo) {
+			prevTwo=prev;
+			prev=guess;
+			guess=guess-((other*Math.pow(guess,power)-constant)/(other*power*Math.pow(guess,power-1)));
+		}
+		return (float)guess;
+	}
 	public static boolean pvCalculation (CycleNode nodeOne, CycleNode nodeTwo, Cycle cycle) throws PhysicsException {
 		boolean processUpdated = false;
 		if (!Float.isNaN(nodeOne.pressure) && !Float.isNaN(nodeOne.volume) && !Float.isNaN(cycle.heatCapacityRatio)) {
 			if (!Float.isNaN(nodeTwo.pressure)) {
 				if (Float.isNaN(nodeTwo.volume)) {
-					nodeTwo.volume = nodeOne.volume*(float)Math.pow(
-						nodeOne.pressure/nodeTwo.pressure,
-						1/(cycle.heatCapacityRatio-1));
+					nodeTwo.volume = Adiabatic.newtonCalculation(
+						nodeOne.pressure*Math.pow(nodeOne.volume,cycle.heatCapacityRatio),
+						nodeTwo.pressure,cycle.heatCapacityRatio);
 					processUpdated = true;
 				} else {
-					if (nodeTwo.volume != nodeOne.volume*(float)Math.pow(
-						nodeOne.pressure/nodeTwo.pressure,
-						1/(cycle.heatCapacityRatio-1))) {
+					if (nodeTwo.volume != Adiabatic.newtonCalculation(
+							nodeOne.pressure*Math.pow(nodeOne.volume,cycle.heatCapacityRatio),
+							nodeTwo.pressure,cycle.heatCapacityRatio)) {
 						throw new PhysicsException("Adiabatic pv^(gamma-1) failed to be a constant!");
 					}
 				}
@@ -100,12 +112,7 @@ public class Adiabatic
 						cycle.heatCapacityRatio-1);
 				processUpdated = true;
 			}
-		} /*else if (!Float.isNaN(nodeOne.pressure) && !Float.isNaN(nodeOne.volume) && 
-		!Float.isNaN(nodeTwo.pressure) && !Float.isNaN(nodeTwo.volume)) {
-			cycle.heatCapacityRatio = (float)(Math.log(nodeTwo.pressure/nodeOne.pressure)
-				/Math.log(nodeOne.volume/nodeTwo.volume)+1.0);
-			processUpdated = true;
-		}*/
+		}
 		return processUpdated;
 	}
 	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
