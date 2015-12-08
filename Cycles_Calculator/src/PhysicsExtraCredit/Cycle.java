@@ -360,4 +360,20 @@ public class Cycle {
 	public static float calcMoles (float pressure, float volume, float temperature) {
 		return (pressure*volume)/(temperature*R);
 	}
+	public static boolean apprxEq (float valOne, float valTwo) {
+		final float RANGE=0.000005f;
+		if (valOne >= valTwo) {
+			if (valOne-valTwo <= RANGE) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if (valTwo-valOne <= RANGE) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 }
