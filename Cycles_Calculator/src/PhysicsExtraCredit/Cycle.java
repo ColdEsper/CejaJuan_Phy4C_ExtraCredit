@@ -62,6 +62,8 @@ public class Cycle {
 								loadProcess.type = CycleProcess.ProcessType.ISOBARIC;
 							} else if (type.equals("isochoric")) {
 								loadProcess.type = CycleProcess.ProcessType.ISOCHORIC;
+							} else {
+								throw new IOException("Unrecognized process type "+type);
 							}
 						} else if (procProp.startsWith("heat=")) {
 							String doub = procProp.substring(5);
@@ -112,7 +114,7 @@ public class Cycle {
 		//calculate pressure
 		if (!Float.isNaN(moles) && !Float.isNaN(node.volume) && !Float.isNaN(node.temperature)) {
 			if(!Float.isNaN(node.pressure)) {
-				if (node.pressure != (moles*R*node.temperature)/node.volume) {
+				if (!apprxEq(node.pressure,(moles*R*node.temperature)/node.volume)) {
 					throw new PhysicsException("Ideal gas law violated!");
 				}
 			} else {
@@ -126,7 +128,7 @@ public class Cycle {
 		//calculate volume
 		} else if (!Float.isNaN(node.pressure) && !Float.isNaN(moles) && !Float.isNaN(node.temperature)) {
 			if(!Float.isNaN(node.volume)) {
-				if (node.volume!= (moles*R*node.temperature)/node.pressure) {
+				if (!apprxEq(node.volume,(moles*R*node.temperature)/node.pressure)) {
 					throw new PhysicsException("Ideal gas law violated!");
 				}
 			} else {
@@ -140,7 +142,7 @@ public class Cycle {
 		//calculate moles
 		} else if (!Float.isNaN(node.pressure) && !Float.isNaN(node.volume) && !Float.isNaN(node.temperature)) {
 			if(!Float.isNaN(moles)) {
-				if (moles != calcMoles(node.pressure,node.volume,node.temperature)) {
+				if (!apprxEq(moles,calcMoles(node.pressure,node.volume,node.temperature))) {
 					throw new PhysicsException("Ideal gas law violated!");
 				}
 			} else {
@@ -154,7 +156,7 @@ public class Cycle {
 		//calculate temperature
 		} else if (!Float.isNaN(node.pressure) && !Float.isNaN(node.volume) && !Float.isNaN(moles)) {
 			if(!Float.isNaN(node.temperature)) {
-				if (node.temperature != (node.pressure*node.volume)/(moles*R)) {
+				if (!apprxEq(node.temperature,(node.pressure*node.volume)/(moles*R))) {
 					throw new PhysicsException("Ideal gas law violated!");
 				}
 			} else {
@@ -244,7 +246,6 @@ public class Cycle {
 				&& moles*(proc.end.temperature-proc.start.temperature) != 0.0f) {
 					heatCapacityV= proc.energyChange/(moles*(proc.end.temperature-proc.start.temperature));
 					processUpdate=true;
-					System.out.println("here");
 				}
 			} else if (Float.isNaN(proc.start.temperature)) {
 				if (!Float.isNaN(proc.end.temperature) && !Float.isNaN(proc.energyChange)) {
@@ -386,15 +387,16 @@ public class Cycle {
 		return (pressure*volume)/(temperature*R);
 	}
 	public static boolean apprxEq (float valOne, float valTwo) {
-		final float RANGE=0.0005f;
+		final float MAX_ERROR=0.1f;
+		float midpoint = (valTwo+valOne)/2.0f;
 		if (valOne >= valTwo) {
-			if (valOne-valTwo <= RANGE) {
+			if ((valOne-valTwo)/midpoint<= MAX_ERROR) {
 				return true;
 			} else {
 				return false;
 			}
 		} else {
-			if (valTwo-valOne <= RANGE) {
+			if ((valTwo-valOne)/midpoint <= MAX_ERROR) {
 				return true;
 			} else {
 				return false;

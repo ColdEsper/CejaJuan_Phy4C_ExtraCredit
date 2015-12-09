@@ -174,7 +174,7 @@ public class Adiabatic
 						float work = cvWork(process.start.volume,
 							process.start.pressure, process.end.volume,
 							process.end.pressure, cycle.heatCapacityV);
-						if (work != process.workChange) {
+						if (!Cycle.apprxEq(work,process.workChange)) {
 							throw new PhysicsException("Adiabatic work didn't match by Cv calculation!");
 						}
 					}
@@ -189,7 +189,7 @@ public class Adiabatic
 					float work = gammaWork(process.start.volume,
 							process.start.pressure, process.end.volume,
 							process.end.pressure, cycle.heatCapacityRatio);
-					if (process.workChange != work) {
+					if (!Cycle.apprxEq(process.workChange,work)) {
 						throw new PhysicsException("Adiabatic work didn't match by gamma calulation!");
 					}
 				}
@@ -203,6 +203,8 @@ public class Adiabatic
 				processUpdated = true;
 			} else if (!Cycle.apprxEq(process.workChange,temperatureWork(process.start.temperature, 
 			process.end.temperature, cycle.heatCapacityV, cycle.moles))) {
+				System.out.println(process.workChange);
+				System.out.println(temperatureWork(process.start.temperature, process.end.temperature, cycle.heatCapacityV, cycle.moles));
 				throw new PhysicsException("Adiabatic work didn't match by temperature calculation!");
 			}
 		}

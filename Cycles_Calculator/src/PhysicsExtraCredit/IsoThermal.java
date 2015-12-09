@@ -98,8 +98,8 @@ public class IsoThermal
 			}
 		} else if (!Float.isNaN(cycle.moles) && !Float.isNaN(process.start.volume) 
 		&& !Float.isNaN(process.end.volume) && !Float.isNaN(process.start.temperature)) {
-			if (process.workChange != isothermCalculationsWork(cycle.moles,process.start.volume,
-				process.end.volume,process.start.temperature)) {
+			if (!Cycle.apprxEq(process.workChange,isothermCalculationsWork(cycle.moles,process.start.volume,
+				process.end.volume,process.start.temperature))) {
 				throw new PhysicsException("Isothermal work does not match node values");
 			}
 		}

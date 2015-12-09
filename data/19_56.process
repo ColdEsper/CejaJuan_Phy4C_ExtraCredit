@@ -1,0 +1,4 @@
+Cv: 12.47
+process: type=Adiabatic, start=A, end=B
+node: name=A, volume= 2000, pressure=101325, temperature=288
+node: name=B, pressure=91192.5
