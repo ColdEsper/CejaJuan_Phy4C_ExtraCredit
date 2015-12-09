@@ -65,6 +65,12 @@ public class IsoChor
 
 	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
 		boolean processUpdated = false;
+		if (Float.isNaN(process.workChange)) {
+			process.workChange =0.0f;
+			processUpdated=true;
+		} else if (process.workChange != 0.0f) {
+			throw new PhysicsException("Isochoric process did work");
+		}
 		return processUpdated;
 	}
 }
