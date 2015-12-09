@@ -194,14 +194,15 @@ public class Adiabatic
 					}
 				}
 			}
-		} else if (!Float.isNaN(process.start.temperature) && !Float.isNaN(process.end.temperature) 
+		} 
+		if (!Float.isNaN(process.start.temperature) && !Float.isNaN(process.end.temperature) 
 		&& !Float.isNaN(cycle.moles) && !Float.isNaN(cycle.heatCapacityV)) {
 			if (Float.isNaN(process.workChange)) {
 				process.workChange = temperatureWork(process.start.temperature,
 						process.end.temperature, cycle.heatCapacityV, cycle.moles);
 				processUpdated = true;
-			} else if (process.workChange != temperatureWork(process.start.temperature, 
-			process.end.temperature, cycle.heatCapacityV, cycle.moles)) {
+			} else if (!Cycle.apprxEq(process.workChange,temperatureWork(process.start.temperature, 
+			process.end.temperature, cycle.heatCapacityV, cycle.moles))) {
 				throw new PhysicsException("Adiabatic work didn't match by temperature calculation!");
 			}
 		}

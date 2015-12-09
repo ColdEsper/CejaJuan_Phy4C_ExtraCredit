@@ -109,7 +109,6 @@ public class Cycle {
 		return cycData;
 	}
 	public void updateNode (CycleNode node,ArrayList<Integer> nextProcesses) throws PhysicsException {
-		boolean updated = false;
 		//calculate pressure
 		if (!Float.isNaN(moles) && !Float.isNaN(node.volume) && !Float.isNaN(node.temperature)) {
 			if(!Float.isNaN(node.pressure)) {
@@ -164,21 +163,6 @@ public class Cycle {
 					if (node!=nodes.get(nodeName)) {
 						updateNode(nodes.get(nodeName),nextProcesses);
 					}
-				}
-			}
-		}
-		if (updated) {
-			for (int i=0;i<nodeConnections.get(node.name).size();++i) {
-				int nextProc = nodeConnections.get(node.name).get(i);
-				boolean alreadyNext = false;
-				for (int j=0;j<nextProcesses.size();++j) {
-					if (nextProcesses.get(i)==nextProc) {
-						alreadyNext=true;
-						break;
-					}
-				}
-				if (!alreadyNext) {
-					nextProcesses.add(nextProc);
 				}
 			}
 		}
@@ -252,19 +236,23 @@ public class Cycle {
 				if (!Float.isNaN(proc.start.temperature) && !Float.isNaN(proc.end.temperature) 
 				&& !Float.isNaN(heatCapacityV) && !Float.isNaN(proc.energyChange)) {
 					moles = proc.energyChange/(heatCapacityV*(proc.end.temperature-proc.start.temperature));
+					processUpdate=true;
 				}
 			} else if (Float.isNaN(heatCapacityV)) {
 				if (!Float.isNaN(proc.start.temperature) && !Float.isNaN(proc.end.temperature)
 				&& !Float.isNaN(proc.energyChange)) {
 					heatCapacityV= proc.energyChange/(moles*(proc.end.temperature-proc.start.temperature));
+					processUpdate=true;
 				}
 			} else if (Float.isNaN(proc.start.temperature)) {
 				if (!Float.isNaN(proc.end.temperature) && !Float.isNaN(proc.energyChange)) {
 					proc.start.temperature = proc.end.temperature-(proc.energyChange)/(moles*heatCapacityV);
+					processUpdate=true;
 				}
 			} else if (Float.isNaN(proc.end.temperature)) {
 				if (!Float.isNaN(proc.energyChange)) {
 					proc.end.temperature = proc.start.temperature+(proc.energyChange)/(moles*heatCapacityV);
+					processUpdate=true;
 				}
 			} /*else if (proc.energyChange != moles*heatCapacityV*(proc.start.temperature-proc.end.temperature)) {
 				throw new PhysicsException("Internal energy doesn't match n*Cv*dT");
@@ -292,10 +280,21 @@ public class Cycle {
 					break;
 			}
 			if (processUpdate) {
-				//update nodes of process,
 				updateNode(proc.start,nextProcesses); 
 				updateNode(proc.end,nextProcesses); 
 				nextProcesses.add(nextProcIndex);
+				for (int i=0;i<processes.size();++i) {
+					boolean alreadyNext = false;
+					for (int j=0;j<nextProcesses.size();++j) {
+						if (nextProcesses.get(j)==i) {
+							alreadyNext=true;
+							break;
+						}
+					}
+					if (!alreadyNext) {
+						nextProcesses.add(i);
+					}
+				}
 			}
 		}
 	}
@@ -385,7 +384,7 @@ public class Cycle {
 		return (pressure*volume)/(temperature*R);
 	}
 	public static boolean apprxEq (float valOne, float valTwo) {
-		final float RANGE=0.000005f;
+		final float RANGE=0.0005f;
 		if (valOne >= valTwo) {
 			if (valOne-valTwo <= RANGE) {
 				return true;
