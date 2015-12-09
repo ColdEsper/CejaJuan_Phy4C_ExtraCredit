@@ -67,6 +67,12 @@ public class IsoThermal
     
 	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
 		boolean processUpdated = false;
+		if (Float.isNaN(process.energyChange)) {
+			process.energyChange = 0.0f;
+			processUpdated=true;
+		} else if (process.energyChange != 0.0f) {
+			throw new PhysicsException("Isothermal internal energy change");
+		}
 		//calculate temperature
 		if (!Float.isNaN(process.start.temperature)) {
 			if (!Float.isNaN(process.end.temperature)) {
@@ -76,9 +82,11 @@ public class IsoThermal
 			}
 			else {
 				process.end.temperature = process.start.temperature;
+				processUpdated=true;
 			}
 		} else if (!Float.isNaN(process.end.temperature)) {
 			process.start.temperature = process.end.temperature;
+			processUpdated=true;
 		}
 		//calculate work
 		if (Float.isNaN(process.workChange)) {
@@ -86,12 +94,26 @@ public class IsoThermal
 			&& !Float.isNaN(process.end.volume) && !Float.isNaN(process.start.temperature)) {
 				process.workChange = isothermCalculationsWork(cycle.moles,process.start.volume,
 					process.end.volume,process.start.temperature);
+				processUpdated=true;
 			}
 		} else if (!Float.isNaN(cycle.moles) && !Float.isNaN(process.start.volume) 
 		&& !Float.isNaN(process.end.volume) && !Float.isNaN(process.start.temperature)) {
 			if (process.workChange != isothermCalculationsWork(cycle.moles,process.start.volume,
 				process.end.volume,process.start.temperature)) {
 				throw new PhysicsException("Isothermal work does not match node values");
+			}
+		}
+		if (!Float.isNaN(process.workChange)) {
+			//calculate temperature from work
+			if (!Float.isNaN(cycle.moles) && !Float.isNaN(process.start.volume) && !Float.isNaN(process.end.volume)) {
+				if (Float.isNaN(process.start.temperature)) {
+					process.start.temperature =  process.workChange/(float)(cycle.moles*Cycle.R*Math.log(process.end.volume/process.start.volume));
+					process.end.temperature = process.start.temperature;
+					processUpdated=true;
+				} else if (!Cycle.apprxEq(process.start.temperature,
+							process.workChange/(float)(cycle.moles*Cycle.R*Math.log(process.end.volume/process.start.volume)))) {
+					throw new PhysicsException("Isothermal temperature does not match work");
+				}
 			}
 		}
 		return processUpdated;
