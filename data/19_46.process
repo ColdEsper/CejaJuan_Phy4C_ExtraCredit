@@ -1,0 +1,10 @@
+Cv: 12.47
+moles: 3
+node: name=A, pressure=15000, volume=0.028
+process: type=isobaric, start=A, end=B
+node: name=B, volume=0.0435
+process: type=isochoric, start=B, end=C
+node: name=C, pressure=35000
+process: type=isobaric, start=C, end=D
+node: name=D, volume=0.028
+process: type=isochoric, start=D, end=A
