@@ -1,0 +1,6 @@
+moles: 1.33
+process: type=isothermal, start=A, end=B
+process: type=isochoric, start=B, end=C
+process: type=isothermal, start=C, end=D
+process: type=isochoric, start=D, end=A
+node: name=A, volume=1.25, pressure=3.25

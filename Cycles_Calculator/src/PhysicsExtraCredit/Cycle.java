@@ -240,9 +240,11 @@ public class Cycle {
 				}
 			} else if (Float.isNaN(heatCapacityV)) {
 				if (!Float.isNaN(proc.start.temperature) && !Float.isNaN(proc.end.temperature)
-				&& !Float.isNaN(proc.energyChange)) {
+				&& !Float.isNaN(proc.energyChange) 
+				&& moles*(proc.end.temperature-proc.start.temperature) != 0.0f) {
 					heatCapacityV= proc.energyChange/(moles*(proc.end.temperature-proc.start.temperature));
 					processUpdate=true;
+					System.out.println("here");
 				}
 			} else if (Float.isNaN(proc.start.temperature)) {
 				if (!Float.isNaN(proc.end.temperature) && !Float.isNaN(proc.energyChange)) {
@@ -250,7 +252,7 @@ public class Cycle {
 					processUpdate=true;
 				}
 			} else if (Float.isNaN(proc.end.temperature)) {
-				if (!Float.isNaN(proc.energyChange)) {
+				if (!Float.isNaN(proc.energyChange) && moles*heatCapacityV!=0) {
 					proc.end.temperature = proc.start.temperature+(proc.energyChange)/(moles*heatCapacityV);
 					processUpdate=true;
 				}

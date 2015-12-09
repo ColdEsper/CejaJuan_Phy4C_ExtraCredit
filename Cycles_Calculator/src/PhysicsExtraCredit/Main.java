@@ -72,7 +72,7 @@ class NodePanel extends Panel{
 
 public class Main {
 	Cycle cyc;
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) {
 		if (args.length > 0 && args[0].toLowerCase().equals("gui")) {
 			JFrame frame = new JFrame("Cycle Calculation");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
