@@ -14,7 +14,7 @@ public class Cycle {
 	public float heatCapacityRatio;
 	public float heatCapacityV;
 	public float heatCapacityP;
-	public final static float R =  8.314f; //this is the ideal gas law units J/(mol*k)
+	public final static float R =  8.3144598f; //this is the ideal gas law units J/(mol*k)
 	public static CycleData loadFile (String fileName) throws IOException {
 		CycleData cycData = new CycleData ();
 		File dataFile = new File(fileName);
@@ -245,6 +245,30 @@ public class Cycle {
 					processUpdate= true;
 				}
 			}
+			//internal energy related calculations
+			//Energy is not calculated using n*Cv*dT due to differences in values between it
+			//and calculating energy from work and heat
+			if (Float.isNaN(moles)) {
+				if (!Float.isNaN(proc.start.temperature) && !Float.isNaN(proc.end.temperature) 
+				&& !Float.isNaN(heatCapacityV) && !Float.isNaN(proc.energyChange)) {
+					moles = proc.energyChange/(heatCapacityV*(proc.end.temperature-proc.start.temperature));
+				}
+			} else if (Float.isNaN(heatCapacityV)) {
+				if (!Float.isNaN(proc.start.temperature) && !Float.isNaN(proc.end.temperature)
+				&& !Float.isNaN(proc.energyChange)) {
+					heatCapacityV= proc.energyChange/(moles*(proc.end.temperature-proc.start.temperature));
+				}
+			} else if (Float.isNaN(proc.start.temperature)) {
+				if (!Float.isNaN(proc.end.temperature) && !Float.isNaN(proc.energyChange)) {
+					proc.start.temperature = proc.end.temperature-(proc.energyChange)/(moles*heatCapacityV);
+				}
+			} else if (Float.isNaN(proc.end.temperature)) {
+				if (!Float.isNaN(proc.energyChange)) {
+					proc.end.temperature = proc.start.temperature+(proc.energyChange)/(moles*heatCapacityV);
+				}
+			} /*else if (proc.energyChange != moles*heatCapacityV*(proc.start.temperature-proc.end.temperature)) {
+				throw new PhysicsException("Internal energy doesn't match n*Cv*dT");
+			}*/
 			switch (proc.type) {
 				case ADIABATIC:
 					if (Adiabatic.update(proc,this)) {

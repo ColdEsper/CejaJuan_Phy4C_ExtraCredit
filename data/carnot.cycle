@@ -3,5 +3,5 @@ process: type=isothermal, start=A, end=B
 process: type=adiabatic, start=B, end=C
 process: type=isothermal, start=C, end=D
 process: type=adiabatic, start=D, end=A
-node: name=A, pressure=101000, volume=25, temperature=325.15
+node: name=A, pressure=101000, volume=0.05, temperature=325.15
 node: name=D, pressure=89000

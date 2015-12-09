@@ -79,14 +79,22 @@ public class Adiabatic
 		 return Pfinal;
 	}
 	//For things like pv^gamma=constant and  Tv^(gamma-1)=constant
-	public static float newtonCalculation (double constant, double other, double power) {
+	public static float newtonCalculation (double constant, double other, double power) throws PhysicsException {
 		double guess = constant/(power*other);
 		double prev = -1.0;
 		double prevTwo = -1.0;
+		boolean negativeValue = false;
 		while (guess != prev && guess != prevTwo) {
 			prevTwo=prev;
 			prev=guess;
 			guess=guess-((other*Math.pow(guess,power)-constant)/(other*power*Math.pow(guess,power-1)));
+			if (guess <= 0) {
+				if (negativeValue) {
+					throw new PhysicsException("Calculation error! calculations approaching 0 or negative in Adiabatic newtonCalculation method.");
+				}
+				negativeValue = true;
+				guess=Double.MIN_NORMAL;
+			}
 		}
 		return (float)guess;
 	}
@@ -132,10 +140,6 @@ public class Adiabatic
 					if (!Cycle.apprxEq(nodeTwo.volume,Adiabatic.newtonCalculation(
 								nodeOne.temperature*Math.pow(nodeOne.volume,cycle.heatCapacityRatio-1),
 								nodeTwo.temperature,cycle.heatCapacityRatio-1))) {
-						System.out.println("Current");
-						System.out.println(nodeTwo.volume);
-						System.out.println("Calc");
-						System.out.println(Adiabatic.newtonCalculation( nodeOne.temperature*Math.pow(nodeOne.volume,cycle.heatCapacityRatio-1), nodeTwo.temperature,cycle.heatCapacityRatio-1));
 						throw new PhysicsException("Adiabatic tv^(gamma-1) failed to be a constant!");
 					}
 				}
