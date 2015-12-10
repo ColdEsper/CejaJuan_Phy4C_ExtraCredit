@@ -3,7 +3,7 @@ package PhysicsExtraCredit;
 import java.io.IOException;
 
 class CycleTest {
-	public static void main(String args[]) throws PhysicsException, IOException {
+	public static void main(String args[]) throws IOException {
 		System.out.println("loading test data");
 		CycleData data = Cycle.loadFile("../data/test.cycle");
 		if (data.moles != 3.2190908f) {
@@ -76,18 +76,17 @@ class CycleTest {
 		}
 		//Test object creation from data
 		System.out.println("testing object creation");
-		Cycle cyc = new Cycle(data);
-		boolean generateException = false;
-		Cycle error;
-		/*try {
-			Cycle error = new Cycle(dataTwo);
-			System.out.println("Didn't create PhysicsException for incorrect cv, cp, gamma relationship");
-			System.out.println("moles: "+error.moles);
-			System.out.println("cv: "+error.heatCapacityV);
-			System.out.println("cp: "+error.heatCapacityP);
+		boolean throwsError = false;
+		try {
+			Cycle cyc = new Cycle(data);
 		} catch (PhysicsException e) {
-		}*/
-		if (!CycleTest.testProcess(cyc.processes.get(0),"A","B",Float.NaN,32.992f,Float.NaN,
+			throwsError = true;
+		}
+		if (!throwsError) {
+			System.out.println("fails to throw error on invalid data!");
+			return;
+		}
+		/*if (!CycleTest.testProcess(cyc.processes.get(0),"A","B",Float.NaN,32.992f,Float.NaN,
 					CycleProcess.ProcessType.ISOTHERMAL)) {
 			System.out.println("Created Cycle process 0 initialized incorrectly");
 			cyc.processes.get(0).display();
@@ -120,7 +119,7 @@ class CycleTest {
 			System.out.println("Created Cycle node C initialized incorrectly");
 			cyc.nodes.get("C").display();
 			return;
-		}
+		}*/
 		System.out.println("Load test was Successful!!!");
 	}
 	private static boolean testProcess (CycleProcess proc, String startNodeName, String endNodeName,

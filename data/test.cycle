@@ -1,8 +1,8 @@
+moles: 3.2190908
 gamma: 1.6
 process: type=isothermal, start=A, end=B
 process: type=adiabatic, end=C, start=b
 process: type=isothermal, start=C, end=d, heat=80.23
 process: type=adiabatic, start=D, work=39.7, end=a
 node: pressure=35.029, volume=325.2, name=A
-node: name=B, temperature=273.15
-node: name=c, pressure=59.2
+node: name=C, temperature=200.03

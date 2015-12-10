@@ -23,4 +23,8 @@
 			</classpath>
 		</java>
 	</target>
+	<target name="jar" description="creates jar executable">
+		<jar  update="true" basedir="${build}" destfile="${build}/cycle.jar" manifest="${build}/manifest.txt" />
+		<fileset dir="${build}/PhysicsExtraCredit" />
+	</target>
 </project>
