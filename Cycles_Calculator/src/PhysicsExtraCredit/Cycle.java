@@ -24,7 +24,7 @@ public class Cycle {
 		Scanner readFile = new Scanner(dataFile);
 		try {
 			while (readFile.hasNextLine()) {
-				String data = readFile.nextLine();
+				String data = readFile.nextLine().replaceAll("\\s+","");
 				if (data.toLowerCase().trim().startsWith("moles:")) {
 					String mol = data.toLowerCase().trim().substring(6);
 					cycData.moles = Float.valueOf(mol);
