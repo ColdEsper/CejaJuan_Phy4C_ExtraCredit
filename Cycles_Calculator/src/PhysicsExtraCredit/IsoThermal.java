@@ -114,6 +114,17 @@ public class IsoThermal
 							process.workChange/(float)(cycle.moles*Cycle.R*Math.log(process.end.volume/process.start.volume)))) {
 					throw new PhysicsException("Isothermal temperature does not match work");
 				}
+			//calculate volume from work
+			} else if (Float.isNaN(process.end.volume) && !Float.isNaN(cycle.moles) 
+			&& !Float.isNaN(process.start.volume) && !Float.isNaN(process.start.temperature)) {
+				process.end.volume = (float) (process.start.volume*Math.pow(Math.E,
+							process.workChange/(cycle.moles*Cycle.R*process.start.temperature)));
+				processUpdated=true;
+			} else if (Float.isNaN(process.start.volume) && !Float.isNaN(cycle.moles)
+			&& !Float.isNaN(process.end.volume) && !Float.isNaN(process.start.temperature)) {
+				process.start.volume = (float) (process.end.volume/Math.pow(Math.E,
+							process.workChange/(cycle.moles*Cycle.R*process.start.temperature)));
+				processUpdated=true;
 			}
 		}
 		return processUpdated;

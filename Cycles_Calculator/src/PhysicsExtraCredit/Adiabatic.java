@@ -222,6 +222,19 @@ public class Adiabatic
 		if (tvCalculation(process.end,process.start,cycle)) {
 			processUpdated=true;
 		}
+		//calculate gamma from work
+		if (!Float.isNaN(process.workChange) && !Float.isNaN(process.start.pressure) && !Float.isNaN(process.end.pressure)
+		&& !Float.isNaN(process.start.volume) && !Float.isNaN(process.end.volume)) {
+			if (!Float.isNaN(cycle.heatCapacityRatio)) {
+				if (!Cycle.apprxEq(cycle.heatCapacityRatio,
+				1+(process.start.pressure*process.start.volume-process.end.pressure*process.end.volume)/process.workChange)) {
+					throw new PhysicsException("Adiabatic gamma calculation didn't match cycle gamma");
+				}
+			} else {
+				cycle.heatCapacityRatio=1+(process.start.pressure*process.start.volume-process.end.pressure*process.end.volume)/process.workChange;
+				processUpdated=true;
+			}
+		}
 		return processUpdated;
 	}
 }
