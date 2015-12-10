@@ -73,7 +73,9 @@ class NodePanel extends Panel{
 public class Main {
 	Cycle cyc;
 	public static void main(String args[]) {
-		if (args.length > 0 && args[0].toLowerCase().equals("gui")) {
+		if (args.length > 0 && args[0].toLowerCase().equals("cli")) {
+			Cycles_2nd_Law.commandLineMain(args);
+		} else {
 			JFrame frame = new JFrame("Cycle Calculation");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setPreferredSize(
@@ -146,8 +148,6 @@ public class Main {
 			frame.add(scrollPane);
 			frame.pack();
 			frame.setVisible(true);
-		} else {
-			Cycles_2nd_Law.commandLineMain(args);
 		}
 	}
 }
