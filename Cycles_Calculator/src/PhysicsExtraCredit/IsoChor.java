@@ -65,6 +65,17 @@ public class IsoChor
 
 	public static boolean update (CycleProcess process, Cycle cycle) throws PhysicsException {
 		boolean processUpdated = false;
+		if (!Float.isNaN(process.start.volume)) {
+			if (Float.isNaN(process.end.volume)) {
+				process.end.volume = process.start.volume;
+				processUpdated=true;
+			} else if (process.start.volume != process.end.volume) {
+				throw new PhysicsException("Isobaric volume was not constant.");
+			}
+		} else if (!Float.isNaN(process.end.volume)) {
+			process.start.volume = process.end.volume;
+			processUpdated=true;
+		}
 		if (Float.isNaN(process.workChange)) {
 			process.workChange =0.0f;
 			processUpdated=true;

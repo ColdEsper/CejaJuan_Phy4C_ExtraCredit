@@ -184,14 +184,14 @@ public class Cycle {
 			}
 			if (Float.isNaN(heatCapacityRatio)) {
 				heatCapacityRatio = heatCapacityP/heatCapacityV;
-			} else if (heatCapacityRatio != heatCapacityP/heatCapacityV) {
+			} else if (!apprxEq(heatCapacityRatio,heatCapacityP/heatCapacityV)) {
 				throw new PhysicsException("gamma didn't match Cp/Cv");
 			}
 		} else if (!Float.isNaN(heatCapacityP)) {
 			heatCapacityV = heatCapacityP - R;
 			if (Float.isNaN(heatCapacityRatio)) {
 				heatCapacityRatio = heatCapacityP/heatCapacityV;
-			} else if (heatCapacityRatio != heatCapacityP/heatCapacityV) {
+			} else if (!apprxEq(heatCapacityRatio,heatCapacityP/heatCapacityV)) {
 				throw new PhysicsException("gamma didn't match Cp/Cv");
 			}
 		} else if (!Float.isNaN(heatCapacityRatio)) {
@@ -295,6 +295,25 @@ public class Cycle {
 						}
 					}
 					if (!alreadyNext) {
+						nextProcesses.add(i);
+					}
+				}
+			} else if (nextProcesses.isEmpty()) {
+				for (int i=0;i<processes.size();++i) {
+					//energyChange calculated this way doesn't quite match when calculated by
+					//the first law of thermodynamics, so this calculation is only used after
+					//all other methods are tried.
+					proc = processes.get(i);
+					if (Float.isNaN(proc.energyChange) && !Float.isNaN(proc.start.temperature)
+					&& !Float.isNaN(proc.end.temperature) && !Float.isNaN(moles) 
+					&& !Float.isNaN(heatCapacityV)) {
+						proc.energyChange = moles*heatCapacityV*(proc.end.temperature-proc.start.temperature);
+						processUpdate=true;
+						break;
+					}
+				}
+				if (processUpdate) {
+					for (int i=0;i<processes.size();++i) {
 						nextProcesses.add(i);
 					}
 				}

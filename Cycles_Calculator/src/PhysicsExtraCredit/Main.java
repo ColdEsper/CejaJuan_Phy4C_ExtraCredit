@@ -109,7 +109,11 @@ public class Main {
 			try {
 				cyc = new Cycle(data);
 			} catch (PhysicsException e) {
-				JOptionPane.showMessageDialog(null,e.getMessage());
+				JFrame errorFrame= new JFrame("ERROR");
+				errorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				errorFrame.add(new JLabel(e.getMessage()));
+				errorFrame.pack();
+				errorFrame.setVisible(true);
 				frame.dispose();
 				return;
 			}
