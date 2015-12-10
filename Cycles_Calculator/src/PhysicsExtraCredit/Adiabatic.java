@@ -113,7 +113,7 @@ public class Adiabatic
 					if (!Cycle.apprxEq(nodeTwo.volume,Adiabatic.newtonCalculation(
 							nodeOne.pressure*Math.pow(nodeOne.volume,cycle.heatCapacityRatio),
 							nodeTwo.pressure,cycle.heatCapacityRatio))) {
-						throw new PhysicsException("Adiabatic pv^(gamma-1) failed to be a constant!");
+						throw new PhysicsException("Adiabatic pv^gamma failed to be a constant!");
 					}
 				}
 			} else if (!Float.isNaN(nodeTwo.volume)) {
